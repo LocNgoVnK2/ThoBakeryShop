@@ -1,0 +1,529 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BakeryShop.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BakeryShop.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\animate.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\animate.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\classy-nav.min.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\classy-nav.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\core-style.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\core-style.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\core-style.css.map",
+      "PackagePath": "staticwebassets\\ForMain\\css\\core-style.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\font-awesome.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\jquery-ui.min.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\jquery-ui.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\magnific-popup.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\magnific-popup.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\nice-select.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\nice-select.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\css\\owl.carousel.css",
+      "PackagePath": "staticwebassets\\ForMain\\css\\owl.carousel.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\FontAwesome.otf",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\FontAwesome.otf"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\fontawesome-webfont.eot",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\fontawesome-webfont.eot"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\fontawesome-webfont.svg",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\fontawesome-webfont.svg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\fontawesome-webfont.ttf"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\fontawesome-webfont.woff"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\fontawesome-webfont.woff2"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helvetica_neu_bold-webfont.ttf",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helvetica_neu_bold-webfont.ttf"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helvetica_neu_bold-webfont.woff",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helvetica_neu_bold-webfont.woff"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helvetica_neu_bold-webfont.woff2",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helvetica_neu_bold-webfont.woff2"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helveticaneue_medium-webfont.ttf",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helveticaneue_medium-webfont.ttf"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helveticaneue_medium-webfont.woff",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helveticaneue_medium-webfont.woff"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\fonts\\helveticaneue_medium-webfont.woff2",
+      "PackagePath": "staticwebassets\\ForMain\\fonts\\helveticaneue_medium-webfont.woff2"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\1.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\1.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\2.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\2.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\3.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\3.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\4.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\4.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\5.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\5.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\6.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\6.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\7.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\7.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\8.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\8.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\9.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\9.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\cart1.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\cart1.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\cart2.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\cart2.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\bg-img\\cart3.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\bg-img\\cart3.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\Backgr.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\Backgr.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\LogoShop.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\LogoShop.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\cart.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\cart.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\favicon.ico",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\favicon.ico"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\favorites.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\favorites.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\logo.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\logo.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\logo2.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\logo2.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\paypal.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\paypal.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\core-img\\search.png",
+      "PackagePath": "staticwebassets\\ForMain\\img\\core-img\\search.png"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\pro-big-1.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\pro-big-1.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\pro-big-2.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\pro-big-2.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\pro-big-3.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\pro-big-3.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\pro-big-4.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\pro-big-4.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product1.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product1.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product2.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product2.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product3.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product3.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product4.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product4.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product5.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product5.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\img\\product-img\\product6.jpg",
+      "PackagePath": "staticwebassets\\ForMain\\img\\product-img\\product6.jpg"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\active.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\active.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\classy-nav.min.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\classy-nav.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\jquery\\jquery-2.2.4.min.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\jquery\\jquery-2.2.4.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\map-active.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\map-active.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\plugins.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\plugins.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\js\\popper.min.js",
+      "PackagePath": "staticwebassets\\ForMain\\js\\popper.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\scss\\_mixin.scss",
+      "PackagePath": "staticwebassets\\ForMain\\scss\\_mixin.scss"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\scss\\_responsive.scss",
+      "PackagePath": "staticwebassets\\ForMain\\scss\\_responsive.scss"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\scss\\_theme_color.scss",
+      "PackagePath": "staticwebassets\\ForMain\\scss\\_theme_color.scss"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\scss\\_variables.scss",
+      "PackagePath": "staticwebassets\\ForMain\\scss\\_variables.scss"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\ForMain\\scss\\style.scss",
+      "PackagePath": "staticwebassets\\ForMain\\scss\\style.scss"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\css\\StyleForDashBoard.css",
+      "PackagePath": "staticwebassets\\css\\StyleForDashBoard.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\.netSave\\BakeryShop\\BakeryShop\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.BakeryShop.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.BakeryShop.props",
+      "PackagePath": "build\\BakeryShop.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.BakeryShop.props",
+      "PackagePath": "buildMultiTargeting\\BakeryShop.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.BakeryShop.props",
+      "PackagePath": "buildTransitive\\BakeryShop.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

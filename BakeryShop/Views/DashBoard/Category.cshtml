@@ -1,0 +1,123 @@
+﻿@using Infrastructure.Entities;
+@using Newtonsoft.Json;
+@model CategoryPageViewModel
+
+@{
+    string userJson = Context.Session.GetString("LoggedInUser");
+    Accounts loggedInUser = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        loggedInUser = JsonConvert.DeserializeObject<Accounts>(userJson);
+    }
+    else
+    {
+        Context.Response.Redirect("/AccessDenied");
+        return;
+    }
+
+}
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<!-- Page Content -->
+<div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Dashboard</h2>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>@loggedInUser.Username
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-row {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-buttons {
+        text-align: right;
+    }
+
+        .form-buttons button {
+            margin-right: 10px;
+        }
+</style>
+
+<h2 class="w3-center">Quản lý danh mục</h2>
+
+    <div class="form-container w3-margin-bottom">
+        <form asp-action="AddCategory" asp-controller="Category" method="post">
+            <input asp-for="NewCategory.CategoryID" type="hidden" name="NewCategory.CategoryID" required>
+            <div class="form-row">
+                <label class="form-label" for="categoryName">Tên danh mục:</label>
+                <input asp-for="NewCategory.CategoryName" class="form-input" type="text" id="categoryName" name="NewCategory.CategoryName" required>
+            </div>
+
+            <div class="form-buttons">
+                <button class="w3-button w3-blue" type="submit">Lưu</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="w3-table w3-striped w3-bordered w3-margin-top">
+        <thead>
+            <tr class="w3-blue">
+                <th>Mã danh mục</th>
+                <th>Tên danh mục</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.CategoryID</td>
+                    <td>@category.CategoryName</td>
+                    <td class="w3-center">
+                        <a class="w3-button w3-green" href="#">Sửa</a>
+                    </td>
+                    <td class="w3-center">
+                        <a class="w3-button w3-red" href="#">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
