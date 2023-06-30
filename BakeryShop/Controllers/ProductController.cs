@@ -4,9 +4,9 @@ namespace BakeryShop.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        public IActionResult AddProduct()
         {
-            return View();
+            return RedirectToAction("AddProDuct", "DashBoard");
         }
     }
 }

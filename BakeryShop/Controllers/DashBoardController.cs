@@ -21,34 +21,40 @@ namespace BakeryShop.Controllers
 
         public  IActionResult Index()
         {
-
-          
                 return  View();
-          
-
         }
         public IActionResult Product()
         {
             return View("Product");
         }
-            public async Task<IActionResult> Category()
-            {
-                try
-                {
-                    var categories = await _categoryService.GetCategories();
-                    var categoryViews = _mapper.Map<IEnumerable<CategoryViewModel>>(categories.AsEnumerable());
+        public IActionResult AddProduct()
+        {
+            return View("AddProduct");
+        }
+        public async Task<IActionResult> EditCategory(int id)
+        {
+            Category category = await _categoryService.GetCategory(id);
+            CategoryViewModel categoryView = _mapper.Map<CategoryViewModel>(category);
+            return View("EditCategory", categoryView);
+        }
+        public async Task<IActionResult> Category()
+        {
+           try
+           {
+               var categories = await _categoryService.GetCategories();
+               var categoryViews = _mapper.Map<IEnumerable<CategoryViewModel>>(categories.AsEnumerable());
 
-                    var categoryPageViewModel = new CategoryPageViewModel
-                    {
+               var categoryPageViewModel = new CategoryPageViewModel
+               {
                         Categories = categoryViews,
                         NewCategory = new CategoryViewModel()
-                    };
+               };
                     return View("Category", categoryPageViewModel);
-                }
-                catch (Exception ex)
-                {
+               }
+               catch (Exception ex)
+               {
                     return BadRequest(ex.Message);
-                }
-            }
+               }
+           }
     }
 }

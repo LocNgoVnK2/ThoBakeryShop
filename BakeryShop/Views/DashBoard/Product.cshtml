@@ -17,6 +17,10 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 <!-- Page Content -->
+<head>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
 <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
         <div class="d-flex align-items-center">
@@ -46,3 +50,60 @@
             </ul>
         </div>
     </nav>
+   
+    <style>
+        .image-cell {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <div class="w3-container">
+        <h1 class="w3-center">Danh sách sản phẩm</h1>
+        <div class="w3-right">
+            <a class="w3-button w3-green" asp-controller="Product" asp-action="AddProduct">Thêm sản phẩm</a>
+        </div>
+        <table class="w3-table w3-striped w3-bordered">
+            <thead>
+                <tr class="w3-blue">
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mô tả</th>
+                    <th>Giá tiền</th>
+                    <th>Hình ảnh</th>
+                    <th>Danh mục</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Render product data dynamically from your code -->
+                <tr>
+                    <td>1</td>
+                    <td>Product 1</td>
+                    <td>Description 1</td>
+                    <td>$19.99</td>
+                    <td class="image-cell" style="background-image: url('https://cdn.24h.com.vn/upload/1-2021/images/2021-02-26/image50-1614333620-651-width500height800.jpg')"></td>
+                    <td>1</td>
+                    <td>
+                        <a class="w3-button w3-green" href="#">Sửa</a>
+                        <a class="w3-button w3-red" href="#">Xóa</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Product 2</td>
+                    <td>Description 2</td>
+                    <td>$29.99</td>
+                    <td class="image-cell" style="background-image: url('https://khoinguonsangtao.vn/wp-content/uploads/2022/09/hinh-ve-don-gian-cute-dang-yeu-va-de-thuc-hien.jpg')"></td>
+                    <td>2</td>
+                    <td>
+                        <a class="w3-button w3-green" href="#">Sửa</a>
+                        <a class="w3-button w3-red" href="#">Xóa</a>
+                    </td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
