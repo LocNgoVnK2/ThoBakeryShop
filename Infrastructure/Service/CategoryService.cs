@@ -29,7 +29,7 @@ namespace Infrastructure.Service
 
         public async Task<IQueryable<Category>> GetCategories()
         {
-            return await Task.FromResult(categoryRepo.GetAll());
+            return await Task.FromResult(categoryRepo.GetAll().Where(x=>x.IsUsed==true));
         }
 
         public async Task<Category> GetCategory(int id)

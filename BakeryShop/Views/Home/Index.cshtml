@@ -1,8 +1,51 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+}
+@model List<ProductViewModel>;
+
+<div class="products-catagories-area clearfix"">
+    <div class="amado-pro-catagory clearfix">
+
+     
+        <!-- Single Catagory -->
+          @foreach (ProductViewModel product in Model)
+        {
+            if (product.IsUsed == true)
+            {
+        <div class="single-products-catagory clearfix" style="width:400px;height:600px">
+
+                    <a href="@Url.Action("Index", "Detail", new { id = product.ProductID })">
+                    
+                    
+                        <img src="data:image;base64,@Convert.ToBase64String(product.Image)" style="width:100%;height:100%" alt="">
+                <!-- Hover Content  -->
+                <div class="hover-content">
+                    <div class="line"></div>
+                        <p style="color: white;">Chỉ từ @product.Price VND</p>
+                        <h4 style="color: white;">@product.ProductName</h4>
+                </div>
+            </a>
+        </div>
+            }
+        }
+
+    </div>
+
+    <div class="row">
+    
+        <div class="col-12">
+            <!-- Pagination -->
+            <nav aria-label="navigation">
+                <ul class="pagination justify-content-end mt-50">
+                   
+                    <li class="page-item active"><a class="page-link" href="#">01.</a></li>
+                    <li class="page-item"><a class="page-link" href="#">02.</a></li>
+                    <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                    <li class="page-item"><a class="page-link" href="#">04.</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
+

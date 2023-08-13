@@ -11,9 +11,12 @@ namespace BakeryShop
             // account
             CreateMap<Accounts, AccountsViewModel>();
             CreateMap<AccountsViewModel, Accounts>();
-            // account
+            // Category
             CreateMap<Category, CategoryViewModel>();
             CreateMap<CategoryViewModel, Category>();
+            // Product
+            CreateMap<Product, ProductViewModel>();
+            CreateMap<ProductViewModel, Product>();
         }
     }
 }

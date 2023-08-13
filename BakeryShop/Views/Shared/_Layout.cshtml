@@ -15,7 +15,8 @@
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-  
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+
     <link href="~/formain/css/core-style.css" rel="stylesheet" />
   
 
@@ -64,8 +65,6 @@
         <div class="mobile-nav">
             <!-- Navbar Brand -->
             <div class="amado-navbar-brand">
-
-
                 <a asp-controller="Home" asp-action="Index">
                     <img src="~/formain/img/core-img/logoshop.jpg" />
                 </a>
@@ -91,10 +90,18 @@
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
-                    <li class="active"><a href="index.html">Trang chủ</a></li>
-                    <li><a href="shop.html">Sản phẩm</a></li>
-                    <li><a href="cart.html">Giỏ hàng</a></li>
-                    <li><a href="checkout.html">Đặt theo yêu cầu</a></li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                        <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Shop" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                        <a href="@Url.Action("Index", "Shop")">Sản phẩm</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" ? "active" : "")">
+                        <a href="cart.html">Giỏ hàng</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Checkout" ? "active" : "")">
+                        <a href="checkout.html">Đặt theo yêu cầu</a>
+                    </li>
                 </ul>
             </nav>
             <!-- Button Group -->
@@ -110,17 +117,33 @@
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">
-    
-     
                 <a target="_blank" href="https://www.facebook.com/BanhkemTho/"><i class="fa fa-facebook" aria-hidden="true"></i> | Facebook chính thức</a>
-               
             </div>
+
         </header>
-     
+
         <div class="products-catagories-area clearfix">
-            @RenderBody()
+         
+                    @RenderBody()
+
+
+
+            <h3 class="contact-heading">Bánh kem hiện đại, phù hợp với mọi khẩu vị</h3>
+           
+            <style>
+                .contact-heading {
+                    font-family: 'Dancing Script', cursive;
+                    color: #FFFFFF; /* Màu chữ trắng */
+                    background-color: #000000; /* Màu nền đen */
+                    padding: 50px;
+                }
+
+              
+            </style>
+                   
         </div>
         <!-- Product Catagories Area End -->
+
     </div>
 
     <footer class="footer_area clearfix">
@@ -147,7 +170,8 @@
                             DEVNAME : NGO PHUOC LOC
                             </br>
                             <a target="_blank" href="https://github.com/LocNgoVnK2">Github: LocNgoVnK2</a>
-                         
+                           
+                            
                         </p>
                     </div>
                 </div>
@@ -162,10 +186,10 @@
                                 <div class="collapse navbar-collapse" id="footerNavContent">
                                     <ul class="navbar-nav ml-auto">
                                         <li class="nav-item active">
-                                            <a class="nav-link" href="index.html">Trang chủ</a>
+                                            <a class="nav-link" href="@Url.Action("Index", "Home")">Trang chủ</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="shop.html">Sản phẩm</a>
+                                            <a class="nav-link" href="@Url.Action("Index", "Shop")">Sản phẩm</a>
                                         </li>
                            
                                         <li class="nav-item">

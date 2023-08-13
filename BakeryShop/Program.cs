@@ -25,11 +25,17 @@ builder.Services.AddScoped<IAccountsService, AccountsService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+//Product
+
+builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+
+builder.Services.AddScoped<IProductsService, ProductsService>();
 
 
 builder.Services.AddDbContext<EXDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("EXDbContextConnection"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 builder.Services.AddDistributedMemoryCache();

@@ -17,19 +17,21 @@ namespace Infrastructure.Entities
 
         [Required]
         [MaxLength(255)]
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
 
         [MaxLength]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(10, 2)")]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
-      
+
+        public bool? IsUsed { get; set; } = true;
+
     }
 }

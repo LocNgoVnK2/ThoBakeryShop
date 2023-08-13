@@ -16,6 +16,8 @@ namespace Infrastructure.EF
 
         public DbSet<Accounts> accounts { get; set; }
         public DbSet<Category> categories { get; set; }
+
+        public DbSet<Product> products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Accounts>()

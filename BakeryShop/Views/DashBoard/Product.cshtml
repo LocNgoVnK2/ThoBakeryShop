@@ -1,17 +1,30 @@
 ﻿@using Infrastructure.Entities;
 @using Newtonsoft.Json;
+@using X.PagedList.Mvc
+@using X.PagedList
+@using X.PagedList.Web.Common
+@using X.PagedList.Mvc.Core
+@model IPagedList<ProductViewModel>
+
 @{
+   
     string userJson = Context.Session.GetString("LoggedInUser");
     Accounts loggedInUser = null;
     if (!string.IsNullOrEmpty(userJson))
     {
         loggedInUser = JsonConvert.DeserializeObject<Accounts>(userJson);
+        if (loggedInUser.Role != "1")
+        {
+            Context.Response.Redirect("/AccessDenied");
+            return;
+        }
     }
     else
     {
         Context.Response.Redirect("/AccessDenied");
         return;
     }
+
 }
 @{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
@@ -41,11 +54,6 @@
                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user me-2"></i>@loggedInUser.Username
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
                 </li>
             </ul>
         </div>
@@ -61,6 +69,20 @@
     </style>
     <div class="w3-container">
         <h1 class="w3-center">Danh sách sản phẩm</h1>
+
+        <div class="w3-margin-top">
+            <form class="w3-container w3-card w3-padding" method="get" asp-controller="DashBoard" asp-action="Product" asp-route-searchString="">
+                <div class="w3-row">
+                    <div class="w3-col">
+                        <input class="w3-input w3-border" type="text" placeholder="Tìm sản phẩm" name="searchString">
+                    </div>
+                    <div class="w3-col">
+                        <button type="submit" class="w3-button w3-blue">Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="w3-right">
             <a class="w3-button w3-green" asp-controller="Product" asp-action="AddProduct">Thêm sản phẩm</a>
         </div>
@@ -78,32 +100,49 @@
             </thead>
             <tbody>
                 <!-- Render product data dynamically from your code -->
-                <tr>
-                    <td>1</td>
-                    <td>Product 1</td>
-                    <td>Description 1</td>
-                    <td>$19.99</td>
-                    <td class="image-cell" style="background-image: url('https://cdn.24h.com.vn/upload/1-2021/images/2021-02-26/image50-1614333620-651-width500height800.jpg')"></td>
-                    <td>1</td>
+                @foreach (var product in Model)
+                {
+                    
+                    if (product.IsUsed == true)
+                    {
+
+                    <tr>
+                    <td>@product.ProductID</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                        <td class="image-cell" style="background-image: url('data:image;base64,@Convert.ToBase64String(product.Image)')"></td>
+                    <td>@product.Category?.CategoryName</td>
                     <td>
-                        <a class="w3-button w3-green" href="#">Sửa</a>
-                        <a class="w3-button w3-red" href="#">Xóa</a>
+                                <a class="w3-button w3-green" asp-action="EditProduct" asp-controller="DashBoard" asp-route-id="@product.ProductID">Sửa</a>
+                                <a class="w3-button w3-red" asp-action="DeleteProduct" asp-controller="Product" asp-route-id="@product.ProductID">Xóa</a>
                     </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Product 2</td>
-                    <td>Description 2</td>
-                    <td>$29.99</td>
-                    <td class="image-cell" style="background-image: url('https://khoinguonsangtao.vn/wp-content/uploads/2022/09/hinh-ve-don-gian-cute-dang-yeu-va-de-thuc-hien.jpg')"></td>
-                    <td>2</td>
-                    <td>
-                        <a class="w3-button w3-green" href="#">Sửa</a>
-                        <a class="w3-button w3-red" href="#">Xóa</a>
-                    </td>
-                </tr>
+                    </tr>
+                    }
+                }
                 <!-- Add more rows as needed -->
             </tbody>
         </table>
+        <div class="w3-center">
+            <div class="w3-bar w3-pagination">
+                @if (Model.HasPreviousPage)
+                {
+                    <a class="w3-bar-item w3-button" href="@Url.Action("Product", new { page = 1 })">First</a>
+                    <a class="w3-bar-item w3-button" href="@Url.Action("Product", new { page = Model.PageNumber - 1 })">Previous</a>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a class="w3-bar-item w3-button @(i == Model.PageNumber ? "w3-blue" : "")" href="@Url.Action("Product", new { page = i })">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a class="w3-bar-item w3-button" href="@Url.Action("Product", new { page = Model.PageNumber + 1 })">Next</a>
+                    <a class="w3-bar-item w3-button" href="@Url.Action("Product", new { page = Model.PageCount })">Last</a>
+                }
+            </div>
+        </div>
+
     </div>
 
