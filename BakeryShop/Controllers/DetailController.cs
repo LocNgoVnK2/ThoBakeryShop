@@ -20,18 +20,18 @@ namespace BakeryShop.Controllers
         }
         public async Task<IActionResult> Index(int id)
         {
-            // Lấy thông tin chi tiết sản phẩm dựa trên ID và truyền nó tới view
+            
             Product product = await _productsService.GetProduct(id);
 
             if (product != null)
             {
-                // Chuyển hướng tới trang chi tiết sản phẩm và truyền model sản phẩm cho view
+             
                 ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(product);
                 return View(productViewModel);
             }
             else
             {
-                return NotFound(); // Hoặc xử lý trường hợp sản phẩm không tồn tại
+                return NotFound(); 
             }
             
         }

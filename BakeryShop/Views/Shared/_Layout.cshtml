@@ -48,10 +48,23 @@
             <div class="row">
                 <div class="col-12">
                     <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button type="submit"><img src="~/formain/img/core-img/search.png" /></button>
-                        </form>
+                   
+                       
+                        @if(ViewContext.RouteData.Values["Controller"].ToString() == "Home")
+                        {
+                            <form asp-controller="Home" asp-action="Index">
+                                <input type="search" name="searchString" id="search" placeholder="Nhập tên sản phẩm cần tìm...">
+                                <button type="submit"><img src="~/formain/img/core-img/search.png" /></button>
+                            </form>
+                        }
+                        @if (ViewContext.RouteData.Values["Controller"].ToString() == "Shop")
+                        {
+                            <form asp-controller="Shop" asp-action="Index">
+                                <input type="search" name="searchString" id="search" placeholder="Nhập tên sản phẩm cần tìm...">
+                                <button type="submit"><img src="~/formain/img/core-img/search.png" /></button>
+                            </form>
+                        }
+
                     </div>
                 </div>
             </div>
