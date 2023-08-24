@@ -1,26 +1,6 @@
 ﻿@model ProductViewModel
 
 
-    <!-- Search Wrapper Area Start -->
-    <div class="search-wrapper section-padding-100">
-        <div class="search-close">
-            <i class="fa fa-close" aria-hidden="true"></i>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Search Wrapper Area End -->
-    <!-- ##### Main Content Wrapper Start ##### -->
    
         <div class="single-product-area section-padding-100 clearfix">
             <div class="container-fluid">
@@ -42,15 +22,6 @@
                                 <ol class="carousel-indicators">
                                 <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(data:image;base64,@Convert.ToBase64String(Model.Image));">
                                     </li>
-                                    <!--
-                                     <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
-                                </li>
-                                <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/product-img/pro-big-3.jpg);">
-                                </li>
-                                <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(img/product-img/pro-big-4.jpg);">
-                                </li>
-                                    -->
-                                   
                                 </ol>
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
@@ -58,25 +29,7 @@
                                         <img class="d-block w-100" src="data:image;base64,@Convert.ToBase64String(Model.Image)" alt="First slide">
                                         </a>
                                     </div>
-                                    <!--
-                                     <div class="carousel-item">
-                                    <a class="gallery_img" href="img/product-img/pro-big-2.jpg">
-                                        <img class="d-block w-100" src="img/product-img/pro-big-2.jpg" alt="Second slide">
-                                    </a>
-                                </div>
-                                <div class="carousel-item">
-                                    <a class="gallery_img" href="img/product-img/pro-big-3.jpg">
-                                        <img class="d-block w-100" src="img/product-img/pro-big-3.jpg" alt="Third slide">
-                                    </a>
-                                </div>
-                                <div class="carousel-item">
-                                    <a class="gallery_img" href="img/product-img/pro-big-4.jpg">
-                                        <img class="d-block w-100" src="img/product-img/pro-big-4.jpg" alt="Fourth slide">
-                                    </a>
-                                </div>
-
-                                    -->
-                                   
+                             
                                 </div>
                             </div>
                         </div>
@@ -114,7 +67,7 @@
                             </div>
 
                             <!-- Add to Cart Form -->
-                            <form class="cart clearfix" method="post">
+                            <div class="cart clearfix" >
                                 <div class="cart-btn d-flex mb-50">
                                     <p>Số lượng</p>
                                     <div class="quantity">
@@ -123,8 +76,8 @@
                                         <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">Thêm vào giỏ hàng</button>
-                            </form>
+                        <button type="button" name="addtocart" data-id="@Model.ProductID" class="btn amado-btn ajax-add-to-cart">Thêm vào giỏ hàng</button>
+                            </div>
 
                         </div>
                     </div>
@@ -133,4 +86,35 @@
         </div>
         <!-- Product Details Area End -->
     </div>
+@section script{
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function () {
+            $(".ajax-add-to-cart").click(function () {
+                var productId = $(this).data("id");
+                var quantity = parseInt($("#qty").val());
 
+                $.ajax({
+                    url: "/Cart", // Địa chỉ của phương thức Index trong controller Cart
+                   
+                    data: {
+                        id: productId,
+                        quantity: quantity
+                    },
+                    success: function (data) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Sản phẩm đã được thêm vào giỏ hàng',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText); // In ra thông báo lỗi trong trường hợp xảy ra lỗi
+                    }
+                });
+            });
+        });
+    </script>
+}
