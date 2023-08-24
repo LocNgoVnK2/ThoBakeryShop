@@ -7,6 +7,7 @@ using Infrastructure.Service;
 using Infrastructure.EF;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,16 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 
 builder.Services.AddScoped<IProductsService, ProductsService>();
+//employee
 
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+builder.Services.AddScoped<IEmployeeService, EmployeesService>();
+//promotion
+
+builder.Services.AddScoped<IPromotionRepository, PromotionRepository>();
+
+builder.Services.AddScoped<IPromotionService, PromotionService>();
 
 builder.Services.AddDbContext<EXDbContext>(options =>
 {
@@ -42,10 +52,13 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(10);
+   
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+var emailConfiguration = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfiguration);
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

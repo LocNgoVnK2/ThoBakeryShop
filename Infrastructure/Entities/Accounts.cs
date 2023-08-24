@@ -13,18 +13,22 @@ namespace Infrastructure.Entities
     {
         [Key]
         [Column("AccountID")]
-        public int AccountID { get; set; }
+        public int? AccountID { get; set; }
 
         [Column("Username")]
         public string Username { get; set; }
 
         [Column("Password")]
         public string Password { get; set; }
+        [Column("Email")]
+        public string Email { get; set; }
+        [Column("ValidationCode")]
+        public string? ValidationCode { get; set; }
 
         [Column("Role")]
         public string Role { get; set; }
-
-        public int? EmployeeID { get; set; }
+        [Column("EmployeeID")]
+        public string? EmployeeID { get; set; }
 
     }
 }

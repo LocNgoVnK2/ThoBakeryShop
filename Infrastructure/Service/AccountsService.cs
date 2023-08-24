@@ -38,19 +38,19 @@ namespace Infrastructure.Service
 
         public async Task InsertAccount(Accounts account)
         {
-            accountsRepository.InsertAsync(account);
+            await accountsRepository.InsertAsync(account);
             
         }
 
         public async Task UpdateAccount(Accounts account)
         {
-            accountsRepository.UpdateAsync(account);
+            await accountsRepository.UpdateAsync(account);
            
         }
 
         public async Task DeleteAccount(Accounts account)
         {
-            accountsRepository.DeleteAsync(account);
+            await accountsRepository.DeleteAsync(account);
             
         }
     }

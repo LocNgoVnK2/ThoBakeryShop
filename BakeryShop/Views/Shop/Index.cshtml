@@ -171,7 +171,8 @@
                                         <div class="product-meta-data">
                                             <div class="line"></div>
                                             <p class="product-price">@product.Price</p>
-                                            <a href="product-details.html">
+                                            <!-- ở đây -->
+                                            <a href="@Url.Action("Index", "Detail", new { id = product.ProductID })">
                                                 <h6>@product.ProductName</h6>
                                             </a>
                                         </div>

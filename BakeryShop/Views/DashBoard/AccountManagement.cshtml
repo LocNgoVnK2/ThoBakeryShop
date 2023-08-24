@@ -1,0 +1,147 @@
+﻿@using Infrastructure.Entities;
+@using Newtonsoft.Json;
+@using X.PagedList.Mvc
+@using X.PagedList
+@using X.PagedList.Web.Common
+@using X.PagedList.Mvc.Core
+@model IPagedList<AccountManagementViewModel>
+    @{
+
+    string userJson = Context.Session.GetString("LoggedInUser");
+    Accounts loggedInUser = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        loggedInUser = JsonConvert.DeserializeObject<Accounts>(userJson);
+        if (loggedInUser.Role != "1")
+        {
+            Context.Response.Redirect("/AccessDenied");
+            return;
+        }
+    }
+    else
+    {
+        Context.Response.Redirect("/AccessDenied");
+        return;
+    }
+
+}
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<!-- Page Content -->
+<head>
+    <title>Account Management</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Dashboard</h2>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>@loggedInUser.Username
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        .image-cell {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <div class="w3-container">
+        <h1 class="w3-center">Danh sách các tài khoản trong hệ thống</h1>
+
+        <div class="w3-margin-top">
+            
+            <form class="w3-container w3-card w3-padding" method="get" asp-controller="DashBoard" asp-action="AccountManagement" asp-route-searchString="">
+                <div class="w3-row">
+                    <div class="w3-col">
+                        <input class="w3-input w3-border" type="text" placeholder="Tìm tài khoản" name="searchString">
+                    </div>
+                    <div class="w3-col">
+                        <button type="submit" class="w3-button w3-blue">Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="w3-right">
+           
+            <a class="w3-button w3-green" asp-controller="AccountManagement" asp-action="AddUserAccount">Thêm tài khoản nhân viên</a>
+        </div>
+        <table class="w3-table w3-striped w3-bordered">
+            <thead>
+                <tr class="w3-blue">
+                    <th>Tên đăng nhập</th>
+                    <th>Email</th>
+                    <th>Mã nhân viên</th>
+                    <th>Tên</th>
+                    <th>Họ</th>
+                    <th>Chi nhánh</th>
+                    <th>Số điện thoại</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var acc in Model)
+                {
+
+                    <tr>
+                        <td>@acc.Username</td>
+                        <td>@acc.Email</td>
+                        <td>@acc.EmployeeID</td>
+                        <td>@acc.LastName</td>
+                        <td>@acc.FirstName</td>
+                        <td>@acc.Position</td>
+                        <td>@acc.PhoneNumber</td>
+                        
+                        <td>
+
+                            <a class="w3-button w3-green" asp-action="EditAccount" asp-controller="DashBoard" asp-route-id="@acc.AccountID">Sửa</a>
+                            <a class="w3-button w3-red" asp-action="DeleteAccount" asp-controller="AccountManagement" asp-route-id="@acc.AccountID">Xóa</a>
+                        </td>
+                    </tr>
+                }   
+            </tbody>
+        </table>
+        <div class="w3-center">
+            <div class="w3-bar w3-pagination">
+                @if (Model.HasPreviousPage)
+                {
+                    <a class="w3-bar-item w3-button" href="@Url.Action("AccountManagement", new { page = 1 })">First</a>
+                    <a class="w3-bar-item w3-button" href="@Url.Action("AccountManagement", new { page = Model.PageNumber - 1 })">Previous</a>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <a class="w3-bar-item w3-button @(i == Model.PageNumber ? "w3-blue" : "")" href="@Url.Action("AccountManagement", new { page = i })">@i</a>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <a class="w3-bar-item w3-button" href="@Url.Action("AccountManagement", new { page = Model.PageNumber + 1 })">Next</a>
+                    <a class="w3-bar-item w3-button" href="@Url.Action("AccountManagement", new { page = Model.PageCount })">Last</a>
+                }
+            </div>
+        </div>
+
+    </div>
+

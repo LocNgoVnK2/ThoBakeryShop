@@ -73,3 +73,8 @@ D:\.netSave\BakeryShop\BakeryShop\obj\Debug\net6.0\BakeryShop.MvcApplicationPart
 D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\JetBrains.Annotations.dll
 D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\X.PagedList.dll
 D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\X.PagedList.Mvc.Core.dll
+D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\MailKit.dll
+D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\MimeKit.dll
+D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\NETCore.MailKit.dll
+D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+D:\.netSave\BakeryShop\BakeryShop\bin\Debug\net6.0\BCrypt.Net.dll

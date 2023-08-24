@@ -4,6 +4,7 @@ using Infrastructure.Entities;
 using Infrastructure.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using X.PagedList;
 
@@ -15,12 +16,16 @@ namespace BakeryShop.Controllers
       private readonly IMapper _mapper;
         private readonly ICategoryService _categoryService;
         private readonly IProductsService _productsService;
+        private readonly IAccountsService _accountsService;
+        private readonly IEmployeeService _employeeService;
         
-        public DashBoardController(IMapper mapper, ICategoryService categoryService,IProductsService productsService)
+        public DashBoardController(IMapper mapper, ICategoryService categoryService,IProductsService productsService, IEmployeeService employeeService, IAccountsService accountsService)
         {
             _mapper = mapper;
             _categoryService = categoryService;
             _productsService = productsService;
+            _employeeService = employeeService;
+            _accountsService = accountsService;
         }
 
         public  IActionResult Index()
@@ -75,6 +80,12 @@ namespace BakeryShop.Controllers
 
             return View("AddProduct", model);
         }
+        public async Task<IActionResult> AddUserAccount()
+        {
+        
+
+            return View("AddUserAccount");
+        }
         public async Task<IActionResult> EditProduct(int id)
         {
             Product product = await _productsService.GetProduct(id);
@@ -111,5 +122,115 @@ namespace BakeryShop.Controllers
                     return BadRequest(ex.Message);
                }
            }
+        public async Task<IActionResult> AccountManagement(int? page, string searchString)
+        {
+            try
+            {
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+
+                IQueryable<Accounts> listAccounts = await _accountsService.GetAccounts();
+                IQueryable<Employee> listEmployees = await _employeeService.GetEmployees();
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listAccounts = listAccounts.Where(e => e.Username.Contains(searchString)).Select(e => e);
+
+                }
+
+                var query =
+                       from Account in listAccounts
+                       join Employee in listEmployees on Account.EmployeeID equals Employee.EmployeeID 
+ 
+                       select new
+                       {
+                           Employee,
+                           Account
+                       };
+                List<AccountManagementViewModel> viewModels = new List<AccountManagementViewModel>();
+                foreach (var v in query)
+                {
+                    AccountManagementViewModel viewModel = new AccountManagementViewModel()
+                    {
+                        AccountID = v.Account.AccountID,
+                        Username  = v.Account.Username,
+                        Password = v.Account.Password,
+                        Email = v.Account.Email,
+                        Role = v.Account.Role,
+                        EmployeeID =v.Employee.EmployeeID,
+                        FirstName = v.Employee.FirstName,
+                        LastName = v.Employee.LastName,
+                        Position = v.Employee.Position,
+                        PhoneNumber = v.Employee.PhoneNumber
+
+                    };
+                    viewModels.Add(viewModel);
+                }
+                IPagedList<AccountManagementViewModel> pagedAccountManagementModels = await viewModels.ToPagedListAsync(pageNumber, pageSize);
+                return View("AccountManagement", pagedAccountManagementModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        //EditAccount
+        public async Task<IActionResult> EditAccount(int id)
+        {
+            Accounts account = await _accountsService.GetAccount(id);
+            Employee employee = await _employeeService.GetEmployee(account.EmployeeID);
+            AccountManagementViewModel model = new AccountManagementViewModel();
+            if(employee != null)
+            {
+                model.Email = account.Email;
+                model.Username = account.Username;
+                model.AccountID = account.AccountID;
+                model.EmployeeID = employee.EmployeeID;
+                model.PhoneNumber = employee.PhoneNumber;
+                model.FirstName = employee.FirstName;
+                model.LastName = employee.LastName;
+                model.Position = employee.Position;
+                
+            }
+            return View("EditAccount", model);
+        }
+        /*
+        public async Task<IActionResult> Promotion(int? page, string searchString)
+        {
+            try
+            {
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+
+
+                IQueryable<Product> listProduct = await _productsService.GetProducts();
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listProduct = listProduct.Where(e => e.IsUsed == true && e.ProductName.Contains(searchString)).Select(e => e);
+                }
+                else
+                {
+                    listProduct = listProduct.Where(e => e.IsUsed == true).Select(e => e);
+                }
+
+                List<ProductViewModel> products = _mapper.Map<List<ProductViewModel>>(listProduct.ToList());
+                IQueryable<Category> categories = await _categoryService.GetCategories();
+                foreach (ProductViewModel product in products)
+                {
+
+                    product.Category = categories.FirstOrDefault(c => c.CategoryId == product.CategoryId);
+                }
+                IPagedList<ProductViewModel> pagedProducts = await products.ToPagedListAsync(pageNumber, pageSize);
+
+
+                return View("Product", pagedProducts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        
+
+        }
+        */
     }
 }

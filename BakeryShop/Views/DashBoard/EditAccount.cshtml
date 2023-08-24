@@ -1,0 +1,117 @@
+﻿@using Infrastructure.Entities;
+@using Newtonsoft.Json;
+@using X.PagedList.Mvc
+@using X.PagedList
+@using X.PagedList.Web.Common
+@using X.PagedList.Mvc.Core
+@model AccountManagementViewModel
+@{
+
+    string userJson = Context.Session.GetString("LoggedInUser");
+    Accounts loggedInUser = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        loggedInUser = JsonConvert.DeserializeObject<Accounts>(userJson);
+        if (loggedInUser.Role != "1")
+        {
+            Context.Response.Redirect("/AccessDenied");
+            return;
+        }
+    }
+    else
+    {
+        Context.Response.Redirect("/AccessDenied");
+        return;
+    }
+
+}
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<!-- Page Content -->
+<head>
+    <title>Account Management</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Dashboard</h2>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>@loggedInUser.Username
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        .image-cell {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <div class="w3-container">
+        <h1 class="w3-center">Chỉnh sửa thông tin tài khoản</h1>
+        <div class="w3-container w3-padding-32">
+
+            <form class="w3-container" asp-action="UpdateAccount" asp-controller="AccountManagement" enctype="multipart/form-data" method="post">
+                <input  asp-for="AccountID" type="hidden" name="AccountID">
+                <input asp-for="EmployeeID" type="hidden" name="EmployeeID">
+                <div class="form-group">
+                    <label for="Username">Username</label>
+                    <input type="text" class="form-control" id="Username" asp-for="Username" name="Username" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" class="form-control" id="Password" asp-for="Password" name="Password">
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" id="Email" asp-for="Email" name="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="FirstName">First Name</label>
+                    <input type="text" class="form-control" id="FirstName" asp-for="FirstName" name="FirstName">
+                </div>
+                <div class="form-group">
+                    <label for="LastName">Last Name</label>
+                    <input type="text" class="form-control" id="LastName" asp-for="LastName" name="LastName">
+                </div>
+                <div class="form-group">
+                    <label for="Position">Position</label>
+                    <input type="text" class="form-control" id="Position" asp-for="Position" name="Position">
+                </div>
+                <div class="form-group">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" id="PhoneNumber" asp-for="PhoneNumber" name="PhoneNumber">
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">Edit Account</button>
+                    <a type="button" class="btn btn-secondary" href="@Url.Action("AccountManagement", "DashBoard")">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+

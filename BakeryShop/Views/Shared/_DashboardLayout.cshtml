@@ -43,22 +43,29 @@
                    @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "fw-bold")">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
-
-                <a asp-controller="DashBoard" asp-action="Category" 
-                class="list-group-item list-group-item-action bg-transparent second-text
+                @if (loggedInUser.Role == "1")
+                {
+                    <a asp-controller="DashBoard" asp-action="Category"
+                       class="list-group-item list-group-item-action bg-transparent second-text
                  @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "Category" ? "active" : "fw-bold")">
-                    <i class="fas fa-shopping-cart me-2"></i>Danh mục
-                </a>
-                <a asp-controller="DashBoard" asp-action="Product" 
-                class="list-group-item list-group-item-action bg-transparent second-text 
+                        <i class="fas fa-shopping-cart me-2"></i>Danh mục
+                    </a>
+                    <a asp-controller="DashBoard" asp-action="Product"
+                       class="list-group-item list-group-item-action bg-transparent second-text
                 @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "Product" ? "active" : "fw-bold")">
-                    <i class="fas fa-gift me-2"></i>Sản phẩm
-                </a>
+                        <i class="fa fa-truck" aria-hidden="true"></i> Sản phẩm
+                    </a>
+                    <a asp-controller="DashBoard" asp-action="Promotion" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-gift me-2"></i>Chương trình khuyến mãi
+                    </a>
+                    <a asp-controller="DashBoard" asp-action="AccountManagement" class="list-group-item list-group-item-action bg-transparent second-text 
+                @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "AccountManagement" ? "active" : "fw-bold")">
+                        <i class="fa fa-user-circle" ></i> Quản lý tài khoản
+                    </a>
+                }
+               
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-gift me-2"></i>Chương trình khuyến mãi
-                </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-gift me-2"></i>Đơn đặt theo yêu cầu
+                    <i class="fa fa-cart-plus" aria-hidden="true"></i> Đơn đặt theo yêu cầu
                 </a>
 
                 <a asp-controller="Login" asp-action="LogOut" method="post" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">

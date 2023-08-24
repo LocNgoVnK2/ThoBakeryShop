@@ -23,5 +23,8 @@ namespace Infrastructure.EF
             modelBuilder.Entity<Accounts>()
                 .HasKey(a => a.AccountID);
         }
+        public DbSet<Employee> employees { get; set; }
+
+        public DbSet<Promotion> promotions { get; set; }
     }
 }

@@ -103,7 +103,7 @@
                     previewImage.src = e.target.result;
                     previewImage.style.display = 'block';
                 } else {
-                    // Ẩn hoặc xóa phần hiển thị hình ảnh xem trước nếu không có tệp được chọn.
+                   
                     previewImage.style.display = 'none';
                     previewImage.src = '';
                 }
@@ -112,7 +112,7 @@
             if (file) {
                 reader.readAsDataURL(file);
             } else {
-                // Ẩn hoặc xóa phần hiển thị hình ảnh xem trước nếu không có tệp được chọn.
+               
                 previewImage.style.display = 'none';
                 previewImage.src = '';
             }
