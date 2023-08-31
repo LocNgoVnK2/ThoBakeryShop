@@ -38,7 +38,7 @@ namespace BakeryShop.Controllers
                     {
                         CartItemVewModel cartItemVewModel = new CartItemVewModel()
                         {
-                            Price = product.Price,
+                            Price = (Double)product.Price,
                             Quantity = quantity,
                             ProductName = product.ProductName,
                             ProductImage = product.Image,
@@ -56,7 +56,7 @@ namespace BakeryShop.Controllers
                     List<CartItemVewModel> cartItemVewModels = new List<CartItemVewModel>();
                     CartItemVewModel cartItemVewModel = new CartItemVewModel()
                     {
-                        Price = product.Price,
+                        Price = (Double)product.Price,
                         Quantity = quantity,
                         ProductName = product.ProductName,
                         ProductImage = product.Image,

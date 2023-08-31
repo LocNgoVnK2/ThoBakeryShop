@@ -17,8 +17,8 @@ namespace BakeryShop.Models
             public string? Description { get; set; }
 
             [Required]
-            [Column(TypeName = "decimal(10, 2)")]
-            public decimal? Price { get; set; }
+ 
+            public Double? Price { get; set; }
 
             public IFormFile? ImageData { get; set; }
 

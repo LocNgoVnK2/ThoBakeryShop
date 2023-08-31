@@ -41,7 +41,8 @@
 
                         @foreach (CategoryViewModel categoryViewModel in Model.Categories)
                         {
-                            <li><a href="#">@categoryViewModel.CategoryName</a></li>
+                            //href="@Url.Action("Index", "Detail", new { id = product.ProductID })
+                            <li><a href="@Url.Action("Index", "Shop", new { category = categoryViewModel.CategoryID })">@categoryViewModel.CategoryName</a></li>
                         }
                     </ul>
                 </div>
@@ -118,12 +119,13 @@
                             <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                         </div>
                         <div class="range-price">0 - 1000000</div>
-                        <a href="#" class="btn amado-btn active">Lọc sản phẩm</a>
+                        <a href="@Url.Action("Index", "Shop", new { minPrice = 500000, maxPrice = 1000000 })" class="btn amado-btn active">Lọc sản phẩm</a>
                     </div>
                 </div>
             </div>
         </div>
 
+      
         <div class="amado_product_area section-padding-100">
             <div class="container-fluid">
 
@@ -159,8 +161,8 @@
                             <div class="col-12 col-sm-6 col-md-12 col-xl-6">
                                 <div class="single-product-wrapper">
                                     <!-- Product Image -->
-                                    <div class="product-img" style="width:400px;height:600px">
-                                        <img style="width:518px;height:699px" src="data:image;base64,@Convert.ToBase64String(product.Image)" alt="">
+                                    <div class="product-img" >
+                                        <img style="height:400px;" src="data:image;base64,@Convert.ToBase64String(product.Image)" alt="">
                                         <!-- Hover Thumb -->
                                         
                                     </div>
@@ -172,7 +174,7 @@
                                             <div class="line"></div>
                                             <p class="product-price">@product.Price</p>
                                             <!-- ở đây -->
-                                            <a href="@Url.Action("Index", "Detail", new { id = product.ProductID })">
+                                            <a href="@Url.Action("Index", "Detail", new { id = product.ProductID  })"    >
                                                 <h6>@product.ProductName</h6>
                                             </a>
                                         </div>
