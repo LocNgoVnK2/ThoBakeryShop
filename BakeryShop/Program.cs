@@ -42,6 +42,21 @@ builder.Services.AddScoped<IPromotionRepository, PromotionRepository>();
 
 builder.Services.AddScoped<IPromotionService, PromotionService>();
 
+//order
+
+builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+// customer
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 builder.Services.AddDbContext<EXDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("EXDbContextConnection"));

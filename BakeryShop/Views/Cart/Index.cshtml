@@ -1,5 +1,13 @@
 ﻿@model List<CartItemVewModel>
+@{
+    Double totalPrice = 0;
+    foreach (CartItemVewModel cartItem in Model)
+    {
+        totalPrice += cartItem.TotalPrice;
 
+    }
+
+}
         <div class="cart-table-area section-padding-100">
             <div class="container-fluid">
                 <div class="row">
@@ -56,13 +64,21 @@
                         <div class="cart-summary">
                             <h5>Cart Total</h5>
                             <ul class="summary-table">
-                                <li><span>Tổng cộng:</span> <span>$140.00</span></li>
-                                <li><span>Giao hàng:</span> <span>Free</span></li>
-                                <li><span>Thành tiền:</span> <span>$140.00</span></li>
+                                <li><span>Tổng cộng:</span> <span>@totalPrice VND</span></li>
+                        
                             </ul>
-                            <div class="cart-btn mt-100">
-                                <a href="cart.html" class="btn amado-btn w-100">Thanh toán</a>
+                    @if (Model.Count == 0)
+                    {
+                        <div class="cart-btn mt-100 ajax-to-checkout">
+                                <a  class="btn amado-btn w-100">Thanh toán</a>
                             </div>
+                    } else
+                        {
+                            <div class="cart-btn mt-100">
+                                <a href="@Url.Action("CheckOutBill", "Cart")" class="btn amado-btn w-100">Thanh toán</a>
+                            </div>
+                        }
+                      
                         </div>
                     </div>
                 </div>
@@ -70,5 +86,22 @@
         </div>
     </div>
 
+@section checkout{
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function () {
+            $(".ajax-to-checkout").click(function (event) {
+                event.preventDefault(); // Ngăn chặn chuyển hướng mặc định
+                // Hiển thị SweetAlert 
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Bạn không có sản phẩm nào  để thanh toán',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
 
- 
+            });
+        });
+    </script>
+}

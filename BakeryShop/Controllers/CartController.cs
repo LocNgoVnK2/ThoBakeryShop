@@ -5,28 +5,33 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using System.Transactions;
 
 namespace BakeryShop.Controllers
 {
     public class CartController : Controller
     {
         private readonly IProductsService _productsService;
-
-        public CartController( IProductsService productsService) {
+        private readonly IOrderDetailService _orderDetailService;
+        private readonly IOrderService _orderService;
+        public CartController(IProductsService productsService, IOrderDetailService orderDetailService , IOrderService orderService )
+        {
             this._productsService = productsService;
+            _orderDetailService = orderDetailService;
+            _orderService = orderService;
         }
         public async Task<ActionResult> Index(int id, int quantity)
         {
             if (id != 0)
             {
                 var oldItemData = HttpContext.Session.GetString("cart");
-                if(oldItemData != null)
+                if (oldItemData != null)
                 { // thêm vào card đã có item
 
                     List<CartItemVewModel> oldItemList = new List<CartItemVewModel>();
 
                     oldItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(oldItemData);
-                    
+
                     Product product = await _productsService.GetProduct(id);
                     if (oldItemList.FirstOrDefault(item => item.ProductId == product.ProductID) != null)
                     {
@@ -69,7 +74,7 @@ namespace BakeryShop.Controllers
                     string serializedItemList = JsonConvert.SerializeObject(item);
                     HttpContext.Session.SetString("cart", serializedItemList);
                 }
-              
+
             }
             var cartItemData = HttpContext.Session.GetString("cart");
             List<CartItemVewModel> cartItemList = new List<CartItemVewModel>();
@@ -80,6 +85,57 @@ namespace BakeryShop.Controllers
             }
 
             return View(cartItemList);
+        }
+        public async Task<ActionResult> CheckOutBill()
+        {
+            var cartItemData = HttpContext.Session.GetString("cart");
+            List<CartItemVewModel> cartItemList = new List<CartItemVewModel>();
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    Order order = new Order()
+                    {
+                        OrderDate = DateTime.Now,
+                        IsDone = false
+                    };
+                    await _orderService.InsertOrder(order);
+
+                    if (!string.IsNullOrEmpty(cartItemData))
+                    {
+                        cartItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(cartItemData);
+                        foreach (CartItemVewModel cartItemVew in cartItemList)
+                        {
+                            OrderDetail orderDetail = new OrderDetail()
+                            {
+                                ProductID = cartItemVew.ProductId,
+                                OrderID = order.OrderID,
+                                Quantity = cartItemVew.Quantity,
+                                Subtotal = cartItemVew.TotalPrice
+                                // discount tính sau 
+                            };
+                            await _orderDetailService.InsertOrderDetail(orderDetail);
+                        }
+
+                    }
+                    scope.Complete();
+                    CheckOutViewModel checkOut = new CheckOutViewModel() { 
+                    IdOrder = order.OrderID
+                    };
+                    return View(checkOut);
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    return NotFound();
+           
+                }
+            }
+        }
+
+        public async Task<ActionResult> CompleteCheckOut(List<CartItemVewModel> cartItems)
+        {
+            return RedirectToAction("CheckOutBill", "Cart");
         }
 
     }

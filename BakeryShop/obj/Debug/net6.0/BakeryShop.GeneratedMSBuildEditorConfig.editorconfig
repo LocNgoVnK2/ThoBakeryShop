@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\.netSave\BakeryShop\BakeryShop
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/.netSave/BakeryShop/BakeryShop/Views/Cart/CheckOutBill.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDaGVja091dEJpbGwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/.netSave/BakeryShop/BakeryShop/Views/Cart/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

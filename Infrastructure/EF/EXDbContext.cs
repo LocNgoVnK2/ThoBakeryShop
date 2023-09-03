@@ -26,5 +26,10 @@ namespace Infrastructure.EF
         public DbSet<Employee> employees { get; set; }
 
         public DbSet<Promotion> promotions { get; set; }
+        public DbSet<Order> orders { get; set; }
+
+        public DbSet<OrderDetail> orderDetails { get; set; }
+
+        public DbSet<Customer> customers { get; set; }
     }
 }

@@ -1,4 +1,14 @@
-﻿
+﻿@using Newtonsoft.Json;
+@{
+    string cartJson = Context.Session.GetString("cart");
+    List<CartItemVewModel> oldItemList = new List<CartItemVewModel>();
+
+    if (!string.IsNullOrEmpty(cartJson))
+    {
+        oldItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(cartJson);
+      
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,9 +122,7 @@
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                         <a href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
                     </li>
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Checkout" ? "active" : "")">
-                        <a href="checkout.html">Đặt theo yêu cầu</a>
-                    </li>
+                   
                 </ul>
             </nav>
             <!-- Button Group -->
@@ -124,8 +132,15 @@
             </div>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="cart.html" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
-                <a href="#" class="fav-nav"><img src="img/core-img/favorites.png" alt=""> Favourite</a>
+                <a href="@Url.Action("Index", "Cart")" class="cart-nav">
+                    <img src="img/core-img/cart.png" alt=""> Cart
+                    @if (ViewContext.RouteData.Values["Controller"].ToString() != "Cart" && ViewContext.RouteData.Values["Controller"].ToString() != "Detail")
+                    {
+                        <span>(@oldItemList.Count)</span>
+                    }
+                
+                    </a>
+              
                 <a href="#" class="search-nav"><img src="img/core-img/search.png" alt=""> Search</a>
             </div>
             <!-- Social Button -->
@@ -205,13 +220,11 @@
                                         <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Shop" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                                             <a class="nav-link" href="@Url.Action("Index", "Shop")">Sản phẩm</a>
                                         </li>
-                           
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="cart.html">Giỏ hàng</a>
+                                     
+                                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
+                                            <a class="nav-link" href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="checkout.html">Đặt hàng theo yêu cầu riêng</a>
-                                        </li>
+                                     
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="Login" asp-action="Login">ADMIN</a>
                                         </li>
@@ -233,7 +246,7 @@
     <!-- ##### Footer Area End ##### -->
     <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
     <script src="~/formain/js/jquery/jquery-2.2.4.min.js"></script>
-    
+   
     <!-- Popper js -->
     <script src="~/formain/js/popper.min.js"></script>
    
@@ -246,7 +259,7 @@
     <!-- Active js -->
     <script src="~/formain/js/active.js"></script>
     @RenderSection("script", required: false)
-
+    @RenderSection("checkout", required: false)
 </body>
 
 </html>

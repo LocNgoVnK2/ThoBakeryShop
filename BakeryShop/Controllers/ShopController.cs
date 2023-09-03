@@ -22,7 +22,7 @@ namespace BakeryShop.Controllers
             _categoryService = categoryService;
             _productsService = productsService;
         }
-        public async Task<IActionResult> Index(int? page, string searchString, int category, float maxPrice,float minPrice)
+        public async Task<IActionResult> Index(int? page, string searchString, int category, int maxPrice,int minPrice)
         {
             try
             {
@@ -47,7 +47,15 @@ namespace BakeryShop.Controllers
                 {
                     listProduct = listProduct.Where(e => e.IsUsed == true).Select(e => e);
                 }
-             
+                if (maxPrice != 0)
+                {
+                    listProduct = listProduct.Where(e => e.IsUsed == true && e.Price>=minPrice && e.Price<=maxPrice).Select(e => e);
+                }
+                else
+                {
+                    listProduct = listProduct.Where(e => e.IsUsed == true).Select(e => e);
+                }
+
                 List<ProductViewModel> products = _mapper.Map<List<ProductViewModel>>(listProduct.ToList());
                 IQueryable<Category> categories = await _categoryService.GetCategories();
                 List<CategoryViewModel> categoriesModel = _mapper.Map<List<CategoryViewModel>>(categories.ToList());

@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <body>
 
@@ -25,12 +25,7 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-
-   
-
         <div class="shop_sidebar_area">
-
-            <!-- ##### Single Widget ##### -->
             <div class="widget catagory mb-50">
                 <!-- Widget Title -->
                 <h6 class="widget-title mb-30">Danh mục</h6>
@@ -47,66 +42,6 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- 
-
-           
-            <div class="widget brands mb-50">
-                
-                <h6 class="widget-title mb-30">Brands</h6>
-
-                <div class="widget-desc">
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="amado">
-                        <label class="form-check-label" for="amado">Amado</label>
-                    </div>
-                   
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ikea">
-                        <label class="form-check-label" for="ikea">Ikea</label>
-                    </div>
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="furniture">
-                        <label class="form-check-label" for="furniture">Furniture Inc</label>
-                    </div>
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="factory">
-                        <label class="form-check-label" for="factory">The factory</label>
-                    </div>
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="artdeco">
-                        <label class="form-check-label" for="artdeco">Artdeco</label>
-                    </div>
-                </div>
-            </div>
-             -->
-
-
-            <!-- 
-
-            <h6 class="widget-title mb-30">Color</h6>
-
-            <div class="widget-desc">
-                <ul class="d-flex">
-                    <li><a href="#" class="color1"></a></li>
-                    <li><a href="#" class="color2"></a></li>
-                    <li><a href="#" class="color3"></a></li>
-                    <li><a href="#" class="color4"></a></li>
-                    <li><a href="#" class="color5"></a></li>
-                    <li><a href="#" class="color6"></a></li>
-                    <li><a href="#" class="color7"></a></li>
-                    <li><a href="#" class="color8"></a></li>
-                </ul>
-            </div>
-        </div>
-            -->
-           
-
-            <!-- ##### Single Widget ##### -->
             <div class="widget price mb-50">
                 <!-- Widget Title -->
                 <h6 class="widget-title mb-30">Gía</h6>
@@ -119,11 +54,32 @@
                             <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                         </div>
                         <div class="range-price">0 - 1000000</div>
-                        <a href="@Url.Action("Index", "Shop", new { minPrice = 500000, maxPrice = 1000000 })" class="btn amado-btn active">Lọc sản phẩm</a>
+                        <a id="filter-link" href="#" class="btn amado-btn active">Lọc sản phẩm</a>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                $(".slider-range-price").slider({
+                    range: true,
+                    min: 0,
+                    max: 1000000,
+                    values: [0, 1000000],
+                    slide: function (event, ui) {
+                        $(".range-price").text(ui.values[0] + " - " + ui.values[1]);
+                    }
+                });
+
+                $("#filter-link").click(function (e) {
+                    e.preventDefault();
+                    var minPrice = $(".slider-range-price").slider("values", 0);
+                    var maxPrice = $(".slider-range-price").slider("values", 1);
+                    var url = "/Shop/Index?minPrice=" + minPrice + "&maxPrice=" + maxPrice;
+                    window.location.href = url;
+                });
+            });
+        </script>
 
       
         <div class="amado_product_area section-padding-100">
@@ -131,18 +87,37 @@
 
                 <div class="row">
                     <div class="col-12">
+                        <h6 class="widget-title mb-30">Lọc sản phẩm theo nhiều yếu tố</h6>
                         <div class="product-topbar d-xl-flex align-items-end justify-content-between">
-                           
+                         
                             <!-- Sorting -->
                             <div class="product-sorting d-flex">
                                 <div class="sort-by-date d-flex align-items-center mr-15">
-                                    <p>Sort by</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortBydate">
-                                            
-                                            <option value="value">Mới nhất</option>
-                                            <option value="value">Phổ biến nhất</option>
-                                        </select>
+
+                                    <form action="@Url.Action("Index", "Shop")" method="get" class="form-inline">
+                                        <div class="form-group">
+                                            <input type="text" name="searchString" class="form-control" placeholder="Tìm kiếm...">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select name="category" class="form-control">
+                                                <option value="">Chọn danh mục</option>
+                                                @foreach (CategoryViewModel categoryViewModel in Model.Categories)
+                                                {
+                                                    <option value="@categoryViewModel.CategoryID">@categoryViewModel.CategoryName</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="number" name="minPrice" class="form-control" placeholder="Giá tối thiểu">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="number" name="maxPrice" class="form-control" placeholder="Giá tối đa">
+                                        </div>
+
+                                        <button type="submit" class="btn amado-btn active">Lọc sản phẩm</button>
                                     </form>
                                 </div>
                              
