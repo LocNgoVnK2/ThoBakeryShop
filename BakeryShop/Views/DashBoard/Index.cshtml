@@ -1,5 +1,6 @@
 ﻿@using Infrastructure.Entities;
 @using Newtonsoft.Json;
+@model List<CheckOutBillViewModel>
 @{
     string userJson = Context.Session.GetString("LoggedInUser");
     Accounts loggedInUser = null;
@@ -25,10 +26,16 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }   <!-- Page Content -->
 <head>
- 
+
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    
 </head>
 <div id="page-content-wrapper">
+   
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
         <div class="d-flex align-items-center">
             <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
@@ -54,104 +61,144 @@
         </div>
     </nav>
 
-    <!--
-            <div class="container-fluid px-4">
 
-                <div class="row my-5">
-                    <h3 class="fs-4 mb-3">Hóa đơn hiện tại</h3>
-                    <div class="col">
-                        <table class="table bg-white rounded shadow-sm  table-hover">
-                            <thead>
+    <div class="container-fluid px-4">
+        <div class="row my-5">
+            <h3 class="fs-4 mb-3">Hóa đơn hiện tại</h3>
+            <div class="col">
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    <table class="table bg-white rounded shadow-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50">Mã hóa đơn</th>
+                                <th scope="col"> Tên khách hàng </th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số Diện thoại</th>
+                                <th scope="col">Thành tiền</th>
+                                <th scope="col">Chi tiết đơn hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
                                 <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Price</th>
+                                    <th scope="row">@order.IdOrder</th>
+                                    <td>@order.FirstName</td>
+                                    <td>@order.Address</td>
+                                    <td>@order.PhoneNumber</td>
+                                    <td>@order.TotalPrice</td>
+                                    <td>
+                                        <button class="btn btn-primary open-order-detail-button" data-order-id="@order.IdOrder">Chi tiết đơn hàng</button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Television</td>
-                                    <td>Jonny</td>
-                                    <td>$1200</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Laptop</td>
-                                    <td>Kenny</td>
-                                    <td>$750</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Cell Phone</td>
-                                    <td>Jenny</td>
-                                    <td>$600</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Fridge</td>
-                                    <td>Killy</td>
-                                    <td>$300</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>Books</td>
-                                    <td>Filly</td>
-                                    <td>$120</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>Gold</td>
-                                    <td>Bumbo</td>
-                                    <td>$1800</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>Pen</td>
-                                    <td>Bilbo</td>
-                                    <td>$75</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>Notebook</td>
-                                    <td>Frodo</td>
-                                    <td>$36</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">9</th>
-                                    <td>Dress</td>
-                                    <td>Kimo</td>
-                                    <td>$255</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">10</th>
-                                    <td>Paint</td>
-                                    <td>Zico</td>
-                                    <td>$434</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">11</th>
-                                    <td>Carpet</td>
-                                    <td>Jeco</td>
-                                    <td>$1236</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">12</th>
-                                    <td>Food</td>
-                                    <td>Haso</td>
-                                    <td>$422</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
-
-    -->
-            
-        
         </div>
-    
-   
+    </div>
+        </div>
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết hóa đơn</h5>
+                <!-- Use the Bootstrap close button -->
+               
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                @if (loggedInUser.Role == "2")
+                {
+                    <a href="https://github.com/LocNgoVnK2/ThoBakeryShop/blob/main/BakeryShop/Views/DashBoard/Index.cshtml" id="check-out-bill" class="btn btn-primary">Giao đơn hàng</a>
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Mã JavaScript sau Modal -->
+@section getDetailBill{
+    <script>
+        $(document).ready(function () {
+            // ...
+
+            // Event listener for the "Close" button in the modal
+            $("#partialModal .modal-footer .btn-secondary").click(function () {
+                console.log("Close button clicked.");
+            });
+        });
+        // Chờ cho trang tải xong
+        $(document).ready(function () {
+            // Xử lý sự kiện click trên nút "Chi tiết đơn hàng"
+            $(".open-order-detail-button").click(function () {
+                var orderId = $(this).data("order-id");
+
+                // Gửi yêu cầu AJAX để tải chi tiết đơn hàng từ máy chủ
+                console.log("openOrderDetailModal called with orderId: " + orderId);
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetOrderDetail", "DashBoard")",
+                    data: { orderId: orderId },
+                    success: function (data) {
+                        console.log(data);
+
+                                var orderDetailHtml = `
+                                <p><strong>Mã đơn hàng:</strong> ${data.idOrder}</p>
+                                <p><strong>Tên khách hàng:</strong> ${data.firstName}</p>
+                                <p><strong>Địa chỉ:</strong> ${data.address}</p>
+                                <p><strong>Số điện thoại:</strong> ${data.phoneNumber}</p>
+                                <p><strong>Ngày đặt:</strong> ${data.orderDate}</p>
+                                <p><strong>Ghi chú:</strong> ${data.note}</p>
+                                <p><strong>Thành tiền:</strong> ${data.totalPrice}</p>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                                // Dùng vòng lặp để thêm dữ liệu của mỗi sản phẩm từ orderDetails vào modal
+                                data.orderDetails.forEach(function (orderDetail) {
+                                    orderDetailHtml += `
+                            <tr>
+                                <td>${orderDetail.productID}</td>
+                                <td>${orderDetail.productName}</td>
+                                <td>${orderDetail.quantity}</td>
+                                <td>${orderDetail.subtotal}</td>
+                            </tr>
+                        `;
+                                });
+
+                                // Đóng bảng và modal
+                                orderDetailHtml += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+
+                        // Cập nhật nội dung của modal
+                        $(".modal-body").html(orderDetailHtml);
+                        $("#partialModal").modal('show');
+                      
+                    },
+                    error: function (error) {
+                        console.error("Lỗi khi tải chi tiết đơn hàng: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+

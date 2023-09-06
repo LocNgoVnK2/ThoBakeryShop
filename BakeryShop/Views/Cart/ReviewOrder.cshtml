@@ -1,0 +1,72 @@
+﻿@model List<CheckOutViewModel>
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="cart-title mt-50">
+                    <h2>Danh sách dơn hàng</h2>
+                </div>
+       <form asp-action="ReviewOrder" asp-controller="Cart" method="post" class="form-inline">
+            <div class="form-group">
+                <input type="text" name="phoneNumber" class="form-control" placeholder="Tìm đơn hàng bằng sdt...">
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive" style="overflow-y:auto; height:500px">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Giá</th>
+                                <th>Ngày đặt</th>
+                                <th>Trạng thái đơn hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         
+                            @if (Model != null)
+                            {
+                                @foreach (var order in Model)
+                                {
+                                    <tr style="border-bottom:solid 1px black;">
+                                        <td>@order.IdOrder</td>
+                                        <td>@order.TotalPrice</td>
+                                        <td>@Convert.ToDateTime(order.OrderDate).ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                                @if (order.IsAccept == true && order.IsReceived == false)
+                                                {
+                                                    <p style="color: dodgerblue;">Đơn hàng đã được chấp nhận</p>
+                                                }
+                                                else if (order.IsAccept == true && order.IsReceived == true)
+                                                {
+                                                    <p style="color: limegreen;">Đơn hàng đã được hoàn thành</p>
+                                                    <button class="btn btn-primary" >Đánh giá</button>
+                                                }
+                                                else
+                                                {
+                                                    <p style="color: orangered;">Đơn hàng đang được xử lí</p>
+                                                }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12 col-3">
+                <div class="cart-summary">
+                    <h5>Cart Total</h5>
+                    <ul class="summary-table">
+                        <li><span>Tổng cộng đơn hàng :</span> <span>aaaaaaaaa</span></li>
+                        <li><span>Tổng cộng đơn hàng đang xử lý :</span> <span>aaaaaaaaa</span></li>
+                        <li><span>Tổng cộng đơn hàng đã xử lý :</span> <span>aaaaaaaaa</span></li>
+                    </ul>
+                   
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>

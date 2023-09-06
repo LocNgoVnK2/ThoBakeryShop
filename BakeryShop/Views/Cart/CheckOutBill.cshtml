@@ -1,39 +1,43 @@
-﻿<div class="cart-table-area section-padding-100">
+﻿@model CheckOutViewModel
+
+<div class="cart-table-area section-padding-100">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="checkout_details_area mt-50 clearfix">
-
                     <div class="cart-title">
                         <h2>Checkout</h2>
+                        <h2>Mã hóa đơn: @Model.IdOrder</h2>
                     </div>
-
-                    <form action="#" method="post">
+                    <form asp-action="CompleteCheckOut" asp-controller="Cart" method="post">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" id="first_name" value="" placeholder="Họ và tên lót" required>
+                                <label for="FirstName">Họ và tên lót</label>
+                                <input type="text" class="form-control" id="FirstName" name="FirstName" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" id="last_name" value="" placeholder="Tên" required>
+                                <label for="LastName">Tên</label>
+                                <input type="text" class="form-control" id="LastName" name="LastName" required>
                             </div>
-                
-                            <div class="col-12 mb-3">
-                                <input type="email" class="form-control" id="email" placeholder="Email" value="">
-                            </div>
-                         
-                            </div>
-                            <div class="col-12 mb-3">
-                                <input type="text" class="form-control mb-3" id="street_address" placeholder="Địa chỉ" value="">
-                            </div>
-                      
-                            <div class="col-md-6 mb-3">
-                                <input type="number" class="form-control" id="phone_number" min="0" placeholder="Số điện thoại" value="">
-                            </div>
-                            <div class="col-12 mb-3">
-                                <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Nhập điều muốn nhắn cho shop"></textarea>
-                            </div>
-
-                        
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="Email">Email</label>
+                            <input type="email" class="form-control" id="Email" name="Email">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="Address">Địa chỉ</label>
+                            <input type="text" class="form-control mb-3" id="Address" name="Address">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="PhoneNumber">Số điện thoại</label>
+                            <input type="number" class="form-control" id="PhoneNumber" name="PhoneNumber" min="0">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="Note">Ghi chú</label>
+                            <textarea name="Note" class="form-control w-100" id="Note" name="Note" cols="30" rows="10"></textarea>
+                        </div>
+                        <input type="hidden" id="IdOrder" name="IdOrder" value="@Model.IdOrder">
+                        <button type="submit" class="btn amado-btn w-100">Checkout</button>
                     </form>
                 </div>
             </div>
@@ -41,30 +45,12 @@
                 <div class="cart-summary">
                     <h5>Cart Total</h5>
                     <ul class="summary-table">
-                        <li><span>subtotal:</span> <span>$140.00</span></li>
-                        <li><span>delivery:</span> <span>Free</span></li>
-                        <li><span>total:</span> <span>$140.00</span></li>
+                        <li><span>Tổng cộng:</span> <span>@Model.TotalPrice</span></li>
+                        <li><span>Gía giảm:</span> <span>Free</span></li>
+                        <li><span>Thành tiền:</span> <span>@Model.TotalPrice</span></li>
                     </ul>
-
-                    <div class="payment-method">
-                        <!-- Cash on delivery -->
-                        <div class="custom-control custom-checkbox mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" id="cod" checked>
-                            <label class="custom-control-label" for="cod">Cash on Delivery</label>
-                        </div>
-                        <!-- Paypal -->
-                        <div class="custom-control custom-checkbox mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" id="paypal">
-                            <label class="custom-control-label" for="paypal">Paypal <img class="ml-15" src="img/core-img/paypal.png" alt=""></label>
-                        </div>
-                    </div>
-
-                    <div class="cart-btn mt-100">
-                        <a href="#" class="btn amado-btn w-100">Checkout</a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    </div>

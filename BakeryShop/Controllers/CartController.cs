@@ -14,11 +14,15 @@ namespace BakeryShop.Controllers
         private readonly IProductsService _productsService;
         private readonly IOrderDetailService _orderDetailService;
         private readonly IOrderService _orderService;
-        public CartController(IProductsService productsService, IOrderDetailService orderDetailService , IOrderService orderService )
+        private readonly ICustomerService _customerService;
+        private readonly ICheckOutService _checkOutService;
+        public CartController(IProductsService productsService, IOrderDetailService orderDetailService, IOrderService orderService, ICheckOutService checkOutService, ICustomerService customerService)
         {
             this._productsService = productsService;
             _orderDetailService = orderDetailService;
             _orderService = orderService;
+            _customerService = customerService;
+            _checkOutService = checkOutService;
         }
         public async Task<ActionResult> Index(int id, int quantity)
         {
@@ -88,6 +92,7 @@ namespace BakeryShop.Controllers
         }
         public async Task<ActionResult> CheckOutBill()
         {
+           
             var cartItemData = HttpContext.Session.GetString("cart");
             List<CartItemVewModel> cartItemList = new List<CartItemVewModel>();
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -100,12 +105,14 @@ namespace BakeryShop.Controllers
                         IsDone = false
                     };
                     await _orderService.InsertOrder(order);
-
+                    Double totalPrice = 0;
                     if (!string.IsNullOrEmpty(cartItemData))
                     {
+
                         cartItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(cartItemData);
                         foreach (CartItemVewModel cartItemVew in cartItemList)
                         {
+                            totalPrice += cartItemVew.TotalPrice;
                             OrderDetail orderDetail = new OrderDetail()
                             {
                                 ProductID = cartItemVew.ProductId,
@@ -115,12 +122,17 @@ namespace BakeryShop.Controllers
                                 // discount tính sau 
                             };
                             await _orderDetailService.InsertOrderDetail(orderDetail);
-                        }
 
+                        }
+                        order.TotalAmount = totalPrice;
+                        await _orderService.UpdateOrder(order);
                     }
                     scope.Complete();
-                    CheckOutViewModel checkOut = new CheckOutViewModel() { 
-                    IdOrder = order.OrderID
+                    CheckOutViewModel checkOut = new CheckOutViewModel()
+                    {
+                        IdOrder = order.OrderID,
+                        TotalPrice = order.TotalAmount
+
                     };
                     return View(checkOut);
                 }
@@ -128,15 +140,132 @@ namespace BakeryShop.Controllers
                 {
                     scope.Dispose();
                     return NotFound();
-           
+
                 }
             }
         }
 
-        public async Task<ActionResult> CompleteCheckOut(List<CartItemVewModel> cartItems)
+        public async Task<ActionResult> CompleteCheckOut(CheckOutViewModel checkOutView)
         {
-            return RedirectToAction("CheckOutBill", "Cart");
-        }
+            // if cusmer exist then make update this cus
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
 
+                    Customer customer = new Customer()
+                    {
+                        Address = checkOutView.Address,
+                        Email = checkOutView.Email,
+                        FirstName = checkOutView.FirstName,
+                        LastName = checkOutView.LastName,
+                        PhoneNumber = checkOutView.PhoneNumber,
+
+                    };
+                    await _customerService.InsertCustomer(customer);
+                    CheckOut checkOut = new CheckOut();
+                    checkOut.IdOrder = checkOutView.IdOrder;
+                    checkOut.CustomerId = customer.CustomerId;
+                    checkOut.IsReceived = false;
+                    checkOut.Note = checkOutView.Note;
+                    await _checkOutService.InsertCheckOut(checkOut);
+                    scope.Complete();
+                    HttpContext.Session.Remove("cart");
+
+                    return RedirectToAction("ReviewOrder", "Cart");
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    return NotFound();
+
+                }
+            }
+
+        }
+        public async Task<ActionResult> ReviewOrder(string phoneNumber)
+        {
+            if (phoneNumber == null)
+            {
+                return View();
+            }
+            List<CheckOutViewModel> checkOutViewModels = new List<CheckOutViewModel>();
+            Customer customer = await _customerService.GetCustomerByPhoneNumber(phoneNumber);
+            if(customer!=null)
+            {
+                List<CheckOut> checkOuts = await _checkOutService.GetListCheckOutByCustomerId((int)customer.CustomerId);
+                foreach (CheckOut checkOut in checkOuts)
+                {
+                    Order order = await _orderService.GetOrder((int)checkOut.IdOrder);
+                    CheckOutViewModel checkOutView = new CheckOutViewModel()
+                    {
+
+                        IdOrder = checkOut.IdOrder,
+                        IsReceived = checkOut.IsReceived,
+                        IsAccept = order.IsDone,
+                        Note = checkOut.Note,
+                        TotalPrice = order.TotalAmount,
+                        OrderDate = order.OrderDate,
+                        PhoneNumber = phoneNumber
+                    };
+                    checkOutViewModels.Add(checkOutView);
+                }
+                return View(checkOutViewModels);
+            }
+          return View();
+        }
+        [HttpPost]
+        public IActionResult UpdateQuantity(int productId, int newQuantity)
+        {
+            var cartItemData = HttpContext.Session.GetString("cart");
+            if (!string.IsNullOrEmpty(cartItemData))
+            {
+                List<CartItemVewModel> cartItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(cartItemData);
+                var cartItemToUpdate = cartItemList.FirstOrDefault(item => item.ProductId == productId);
+                if (cartItemToUpdate != null)
+                {
+                  
+                    cartItemToUpdate.Quantity = newQuantity;
+                    string serializedItemList = JsonConvert.SerializeObject(cartItemList);
+                    HttpContext.Session.SetString("cart", serializedItemList);
+                    double newTotalPrice = cartItemList.Sum(item => item.TotalPrice);
+                    var responseData = new
+                    {
+                        success = true,
+                        totalPrice = newTotalPrice,
+                        totalQuantity = cartItemList.Count
+                    };
+
+                    return Json(responseData);
+                }
+            }
+            return Json(new { success = false });
+        }
+        [HttpPost]
+        public IActionResult RemoveProduct(int productId)
+        {
+            var cartItemData = HttpContext.Session.GetString("cart");
+            if (!string.IsNullOrEmpty(cartItemData))
+            {
+                List<CartItemVewModel> cartItemList = JsonConvert.DeserializeObject<List<CartItemVewModel>>(cartItemData);
+                var cartItemToRemove = cartItemList.FirstOrDefault(item => item.ProductId == productId);
+                if (cartItemToRemove != null)
+                {
+                    cartItemList.Remove(cartItemToRemove); // Xóa sản phẩm khỏi danh sách giỏ hàng
+                    string serializedItemList = JsonConvert.SerializeObject(cartItemList);
+                    HttpContext.Session.SetString("cart", serializedItemList);
+                    double newTotalPrice = cartItemList.Sum(item => item.TotalPrice);
+                    var responseData = new
+                    {
+                        success = true,
+                        totalPrice = newTotalPrice,
+                        totalQuantity = cartItemList.Count
+                    };
+
+                    return Json(responseData);
+                }
+            }
+            return Json(new { success = false });
+        }
     }
 }

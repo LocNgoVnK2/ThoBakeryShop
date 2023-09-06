@@ -15,6 +15,7 @@ namespace Infrastructure.Service
         Task InsertOrderDetail(OrderDetail orderDetail);
         Task UpdateOrderDetail(OrderDetail orderDetail);
         Task DeleteOrderDetail(OrderDetail orderDetail);
+        Task<IQueryable<OrderDetail>> GetOrderDetailsByOrderId(int orderId);
     }
 
     public class OrderDetailService : IOrderDetailService
@@ -30,6 +31,11 @@ namespace Infrastructure.Service
         {
             return await Task.FromResult(orderDetailRepository.GetAll());
         }
+        public async Task<IQueryable<OrderDetail>> GetOrderDetailsByOrderId(int orderId)
+        {
+            return await Task.FromResult(orderDetailRepository.GetAll().Where(e=>e.OrderID==orderId).Select(e=>e));
+        }
+
 
         public async Task<OrderDetail> GetOrderDetail(int id)
         {

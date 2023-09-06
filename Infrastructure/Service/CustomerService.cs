@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities;
 using Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace Infrastructure.Service
         Task<IQueryable<Customer>> GetCustomer();
         Task<Customer> GetCustomer(int id);
         Task InsertCustomer(Customer customer);
-        Task UpdateCustomer(Customer customer);
+        Task UpdateCustomer(Customer customer); 
         Task DeleteCustomer(Customer customer);
+        Task<Customer> GetCustomerByPhoneNumber(string phoneNumber);
     }
 
     public class CustomerService : ICustomerService
@@ -52,6 +54,16 @@ namespace Infrastructure.Service
         {
             await customerRepository.DeleteAsync(Customer);
 
+        }
+        public async Task<Customer> GetCustomerByPhoneNumber(string phoneNumber)
+        {
+            Customer customers =  await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            return customers;
+        }
+        public async Task<Customer> GetCustomerByPhoneNumberAndId(string phoneNumber,int id)
+        {
+            Customer customers = await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            return customers;
         }
     }
 }

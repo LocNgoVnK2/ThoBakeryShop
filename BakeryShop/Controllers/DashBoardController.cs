@@ -5,6 +5,7 @@ using Infrastructure.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using X.PagedList;
 
@@ -18,19 +19,104 @@ namespace BakeryShop.Controllers
         private readonly IProductsService _productsService;
         private readonly IAccountsService _accountsService;
         private readonly IEmployeeService _employeeService;
+        private readonly IOrderService _orderService;
+        private readonly ICustomerService _customerService;
+        private readonly ICheckOutService _checkOutService;
+        private readonly IOrderDetailService _orderDetailService;
+       
+   
         
-        public DashBoardController(IMapper mapper, ICategoryService categoryService,IProductsService productsService, IEmployeeService employeeService, IAccountsService accountsService)
+        public DashBoardController(IMapper mapper, 
+                                    ICategoryService categoryService,
+                                    IProductsService productsService, 
+                                    IEmployeeService employeeService, 
+                                    IAccountsService accountsService, 
+                                    ICheckOutService checkOutService,
+                                    IOrderService orderService,
+                                    ICustomerService customerService,
+                                    IOrderDetailService orderDetailService
+                                    )
         {
             _mapper = mapper;
             _categoryService = categoryService;
             _productsService = productsService;
             _employeeService = employeeService;
             _accountsService = accountsService;
+            _orderService = orderService;
+            _customerService = customerService;
+            _checkOutService = checkOutService;
+            _orderDetailService = orderDetailService;
         }
 
-        public  IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-                return  View();
+
+            List<CheckOutBillViewModel> checkOutViewModels = new List<CheckOutBillViewModel>();
+          
+            var orders = await _orderService.GetOrders();
+            orders = orders.Where(e=>e.IsDone==false).Select(e=>e);
+            
+            foreach (Order order in orders)
+            {
+
+                
+                CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+                if (checkOut!=null)
+                {
+                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+                    CheckOutBillViewModel checkOutView = new CheckOutBillViewModel()
+                    {
+
+                        IdOrder = checkOut.IdOrder,
+                        IsReceived = checkOut.IsReceived,
+                        TotalPrice = order.TotalAmount,
+                        OrderDate = order.OrderDate,
+                        PhoneNumber = customer.PhoneNumber,
+                        Address = customer.Address,
+                        FirstName = customer.FirstName + " " + customer.LastName,
+                    };
+                    checkOutViewModels.Add(checkOutView);
+
+                }
+     
+            }
+            return View(checkOutViewModels);
+        
+        }
+        //CheckOutCompleteBill
+        public async Task<IActionResult> CheckOutCompleteBill()
+        {
+
+            List<CheckOutBillViewModel> checkOutViewModels = new List<CheckOutBillViewModel>();
+
+            var orders = await _orderService.GetOrders();
+            orders = orders.Where(e => e.IsDone == true).Select(e => e);
+
+            foreach (Order order in orders)
+            {
+                CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+                
+                if (checkOut != null)
+                {
+                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+                    CheckOutBillViewModel checkOutView = new CheckOutBillViewModel()
+                    {
+                       
+                        IdOrder = checkOut.IdOrder,
+                        IsReceived = checkOut.IsReceived,
+                        TotalPrice = order.TotalAmount,
+                        OrderDate = order.OrderDate,
+                        PhoneNumber = customer.PhoneNumber,
+                        Address = customer.Address,
+                        FirstName = customer.FirstName + " " + customer.LastName,
+                    };
+                    checkOutViewModels.Add(checkOutView);
+
+                }
+
+            }
+            return View(checkOutViewModels);
+
         }
         public async Task<IActionResult> Product(int? page, string searchString)
         {
@@ -193,44 +279,101 @@ namespace BakeryShop.Controllers
             }
             return View("EditAccount", model);
         }
-        /*
-        public async Task<IActionResult> Promotion(int? page, string searchString)
+        [HttpGet]
+             public async Task<IActionResult> GetOrderDetail(int orderId)
         {
-            try
+
+
+            var order = await _orderService.GetOrder(orderId);
+            var orderDetails = await _orderDetailService.GetOrderDetailsByOrderId(orderId);
+            List<OrderDetailViewModel> orderDetailViewModels = new List<OrderDetailViewModel>();
+            foreach(var orderDetail in orderDetails)
             {
-                int pageSize = 5;
-                int pageNumber = (page ?? 1);
-
-
-                IQueryable<Product> listProduct = await _productsService.GetProducts();
-                if (!String.IsNullOrEmpty(searchString))
+                var product = await _productsService.GetProduct((int)orderDetail.ProductID);
+                OrderDetailViewModel orderDetailViewModel = new OrderDetailViewModel()
                 {
-                    listProduct = listProduct.Where(e => e.IsUsed == true && e.ProductName.Contains(searchString)).Select(e => e);
-                }
-                else
-                {
-                    listProduct = listProduct.Where(e => e.IsUsed == true).Select(e => e);
-                }
-
-                List<ProductViewModel> products = _mapper.Map<List<ProductViewModel>>(listProduct.ToList());
-                IQueryable<Category> categories = await _categoryService.GetCategories();
-                foreach (ProductViewModel product in products)
-                {
-
-                    product.Category = categories.FirstOrDefault(c => c.CategoryId == product.CategoryId);
-                }
-                IPagedList<ProductViewModel> pagedProducts = await products.ToPagedListAsync(pageNumber, pageSize);
-
-
-                return View("Product", pagedProducts);
+                    DiscountMoney = orderDetail.DiscountMoney,
+                    OrderID = orderDetail.OrderID,
+                    ProductName = product.ProductName,
+                    Quantity = orderDetail.Quantity,
+                    Subtotal = orderDetail.Subtotal,
+                    ProductID = product.ProductID,
+                    OrderDetailID = orderDetail.OrderID
+                };
+                orderDetailViewModels.Add(orderDetailViewModel);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        
+            CheckOutBillViewModel checkOutView = new CheckOutBillViewModel();
+
+                CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+                if (checkOut != null)
+                {
+                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+
+                checkOutView.IdOrder = checkOut.IdOrder;
+                checkOutView.IsReceived = checkOut.IsReceived;
+                checkOutView.TotalPrice = order.TotalAmount;
+                checkOutView.OrderDate = order.OrderDate;
+                checkOutView.PhoneNumber = customer.PhoneNumber;
+                checkOutView.Address = customer.Address;
+                checkOutView.FirstName = customer.FirstName + " " + customer.LastName;
+                checkOutView.Email = customer.Email;
+                checkOutView.IsAccept = order.IsDone;
+                checkOutView.IsReceived = checkOut.IsReceived;
+                checkOutView.Note = checkOut.Note;
+                checkOutView.orderDetails = orderDetailViewModels;
+                }
+            return Json(checkOutView);
 
         }
-        */
+        //GetOrderDetailComplete
+        [HttpGet]
+        public async Task<IActionResult> GetOrderDetailComplete(int orderId)
+        {
+
+
+            var order = await _orderService.GetOrder(orderId);
+            var orderDetails = await _orderDetailService.GetOrderDetailsByOrderId(orderId);
+            List<OrderDetailViewModel> orderDetailViewModels = new List<OrderDetailViewModel>();
+            foreach (var orderDetail in orderDetails)
+            {
+                var product = await _productsService.GetProduct((int)orderDetail.ProductID);
+                OrderDetailViewModel orderDetailViewModel = new OrderDetailViewModel()
+                {
+                    DiscountMoney = orderDetail.DiscountMoney,
+                    OrderID = orderDetail.OrderID,
+                    ProductName = product.ProductName,
+                    Quantity = orderDetail.Quantity,
+                    Subtotal = orderDetail.Subtotal,
+                    ProductID = product.ProductID,
+                    OrderDetailID = orderDetail.OrderID
+                };
+                orderDetailViewModels.Add(orderDetailViewModel);
+            }
+            CheckOutBillViewModel checkOutView = new CheckOutBillViewModel();
+
+            CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+            if (checkOut != null)
+            {
+                Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+                Employee employee = await _employeeService.GetEmployeeByAccountId((int)order.AccountId);
+                checkOutView.IdOrder = checkOut.IdOrder;
+                checkOutView.IsReceived = checkOut.IsReceived;
+                checkOutView.TotalPrice = order.TotalAmount;
+                checkOutView.OrderDate = order.OrderDate;
+                checkOutView.PhoneNumber = customer.PhoneNumber;
+                checkOutView.Address = customer.Address;
+                checkOutView.FirstName = customer.FirstName + " " + customer.LastName;
+                checkOutView.Email = customer.Email;
+                checkOutView.IsAccept = order.IsDone;
+                checkOutView.IsReceived = checkOut.IsReceived;
+                checkOutView.Note = checkOut.Note;
+                checkOutView.orderDetails = orderDetailViewModels;
+                checkOutView.AccountID = order.AccountId;
+                checkOutView.employeeName = employee.FirstName + " " + employee.LastName;
+
+            }
+            return Json(checkOutView);
+
+        }
     }
 }

@@ -122,7 +122,9 @@
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                         <a href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
                     </li>
-                   
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "ReviewOrder" ? "active" : "")">
+                        <a href="@Url.Action("ReviewOrder", "Cart")">Tra cứu đơn hàng</a>
+                    </li>
                 </ul>
             </nav>
             <!-- Button Group -->
@@ -224,7 +226,10 @@
                                         <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                                             <a class="nav-link" href="@Url.Action("Index", "Cart")">Giỏ hàng</a>
                                         </li>
-                                     
+                                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "ReviewOrder" ? "active" : "")">
+                                            <a class="nav-link" href="@Url.Action("ReviewOrder", "Cart")">Tra cứu đơn hàng</a>
+                                        </li>
+
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="Login" asp-action="Login">ADMIN</a>
                                         </li>

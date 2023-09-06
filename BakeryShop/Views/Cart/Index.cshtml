@@ -27,11 +27,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+           
                             @if (Model != null)
                             {
                                 foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="product-@item.ProductId">
                                         <td class="cart_product_img">
                                             <img src="data:image;base64,@Convert.ToBase64String(item.ProductImage)" alt="Product">
                                         </td>
@@ -43,30 +44,34 @@
                                         </td>
                                         <td class="qty">
                                             <div class="qty-btn d-flex">
-                                                <p>SL</p>
+                                     
                                                 <div class="quantity">
-                                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty-@item.ProductId'); var qty = effect.value; if (!isNaN(qty) && qty > 1) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                    <span class="qty-minus" onclick="decreaseQuantity(@item.ProductId);"><i class="fa fa-minus" aria-hidden="true"></i></span>
                                                     <input type="number" class="qty-text" id="qty-@item.ProductId" step="1" min="1" max="300" name="quantity" value="@item.Quantity">
-                                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty-@item.ProductId'); var qty = effect.value; if (!isNaN(qty)) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                    <span class="qty-plus" onclick="increaseQuantity(@item.ProductId);"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                                 </div>
                                             </div>
                                         </td>
+                                   
+                                        <td>
+                                            <a onclick="removeProduct(@item.ProductId);">Xóa</a>
+                                        </td>
+                                      
                                     </tr>
                                 }
                             }
-
+                              
                            
                         </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="col-12 col-lg-4">
-                        <div class="cart-summary">
-                            <h5>Cart Total</h5>
-                            <ul class="summary-table">
-                                <li><span>Tổng cộng:</span> <span>@totalPrice VND</span></li>
-                        
-                            </ul>
+                        <h5>Cart Total</h5>
+                        <ul class="summary-table">
+                            <li><span>Tổng cộng:</span> <span id="totalPrice">@totalPrice VND</span></li>
+                            
+                        </ul>
                     @if (Model.Count == 0)
                     {
                         <div class="cart-btn mt-100 ajax-to-checkout">
@@ -104,4 +109,73 @@
             });
         });
     </script>
+    <script>
+        function decreaseQuantity(productId) {
+            var inputElement = document.getElementById("qty-" + productId);
+            var currentValue = parseInt(inputElement.value, 10);
+            if (currentValue > 1) {
+                inputElement.value = currentValue - 1;
+                updateQuantity(productId, currentValue - 1);
+            }
+        }
+
+        function increaseQuantity(productId) {
+            var inputElement = document.getElementById("qty-" + productId);
+            var currentValue = parseInt(inputElement.value, 10);
+            if (currentValue < 300) {
+                inputElement.value = currentValue + 1;
+                updateQuantity(productId, currentValue + 1);
+            }
+        }
+        function updateQuantity(productId, newQuantity) {
+    
+            $(".qty-plus, .qty-minus").prop("disabled", true);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateQuantity", "Cart")",
+                data: { productId: productId, newQuantity: newQuantity },
+                success: function (data) {
+                    if (data.success) {
+                     
+                        $("#qty-" + productId).val(newQuantity);
+                        totalPrice = data.totalPrice;
+                        $("#totalPrice").text(totalPrice + " VND");
+                        $("#totalQuantity").text(data.totalQuantity);
+                        console.log("Số lượng sản phẩm đã được cập nhật thành công.");
+                    } else {
+
+                        console.error("Lỗi khi cập nhật số lượng sản phẩm.");
+                    }
+                },
+                error: function (error) {
+                    console.error("Lỗi khi cập nhật số lượng: " + error);
+                },
+                complete: function () {
+                    $(".qty-plus, .qty-minus").prop("disabled", false);
+                }
+            });
+        }
+        function removeProduct(productId) {
+        
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveProduct", "Cart")", 
+                data: { productId: productId },
+                success: function (data) {
+                    if (data.success) {
+                        $("#product-" + productId).remove();
+                        $("#totalPrice").text(data.totalPrice + " VND");
+                        $("#totalQuantity").text(data.totalQuantity);
+                    } else {
+                        console.error("Lỗi khi xóa sản phẩm.");
+                    }
+                },
+                error: function (error) {
+                    console.error("Lỗi khi gửi yêu cầu xóa sản phẩm: " + error);
+                }
+            });
+        }
+
+</script>
 }

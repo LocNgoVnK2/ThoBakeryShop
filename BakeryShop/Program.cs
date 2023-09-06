@@ -57,6 +57,11 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+//checkout 
+builder.Services.AddScoped<ICheckOutRepository, CheckOutRepository>();
+builder.Services.AddScoped<ICheckOutService, CheckOutService>();
+
+
 builder.Services.AddDbContext<EXDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("EXDbContextConnection"));

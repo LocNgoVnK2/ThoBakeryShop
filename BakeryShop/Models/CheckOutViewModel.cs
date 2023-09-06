@@ -1,4 +1,6 @@
-﻿namespace BakeryShop.Models
+﻿
+
+namespace BakeryShop.Models
 {
     public class CheckOutViewModel
     {
@@ -6,6 +8,12 @@
         public int? CustomerId { get; set; }
         public string? Note { get; set; }
         public bool? IsReceived { get; set; }
+        public bool? IsAccept { get; set; }
+       
+
+        public DateTime? OrderDate { get; set; }
+        public Double? TotalPrice { get; set; }
+        public Double? DiscountPrice { get; set; }
         public string? FirstName { get; set;}
 
         public string? LastName { get; set;}

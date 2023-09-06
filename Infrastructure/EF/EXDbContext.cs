@@ -31,5 +31,6 @@ namespace Infrastructure.EF
         public DbSet<OrderDetail> orderDetails { get; set; }
 
         public DbSet<Customer> customers { get; set; }
+        public DbSet<CheckOut> checkOuts { get; set; }
     }
 }
