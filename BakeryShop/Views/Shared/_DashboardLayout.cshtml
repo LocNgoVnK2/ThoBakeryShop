@@ -57,6 +57,11 @@
 
                 @if (loggedInUser.Role == "1")
                 {
+                    <a asp-controller="DashBoard" asp-action="CheckOutCompleteForAdmin"
+                       class="list-group-item list-group-item-action bg-transparent second-text
+                   @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "CheckOutCompleteForAdmin" ? "active" : "fw-bold")">
+                        <i class="fas fa-tachometer-alt me-2"></i>Hóa đơn đã hoàn thành
+                    </a>
                     <a asp-controller="DashBoard" asp-action="Category"
                        class="list-group-item list-group-item-action bg-transparent second-text
                  @(ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" && ViewContext.RouteData.Values["Action"].ToString() == "Category" ? "active" : "fw-bold")">

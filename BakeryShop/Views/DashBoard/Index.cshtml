@@ -1,7 +1,9 @@
 ﻿@using Infrastructure.Entities;
 @using Newtonsoft.Json;
+
 @model List<CheckOutBillViewModel>
 @{
+    var seletedOrder = 0;
     string userJson = Context.Session.GetString("LoggedInUser");
     Accounts loggedInUser = null;
     Employee employee = null;
@@ -90,6 +92,12 @@
                                     <td>
                                         <button class="btn btn-primary open-order-detail-button" data-order-id="@order.IdOrder">Chi tiết đơn hàng</button>
                                     </td>
+                                    <td>
+                                    @if (loggedInUser.Role == "2")
+                                    {
+                                        <a asp-action="CheckOutBillByEmployess" asp-controller="DashBoard" asp-route-orderId="@order.IdOrder" asp-route-accountId="@loggedInUser.AccountID" id="check-out-bill" class="btn btn-primary" data-selected-order="">Giao đơn hàng</a>
+                                    }
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -104,49 +112,36 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Chi tiết hóa đơn</h5>
-                <!-- Use the Bootstrap close button -->
+              
                
             </div>
             <div class="modal-body">
             </div>
-            <div class="modal-footer">
-                @if (loggedInUser.Role == "2")
-                {
-                    <a href="https://github.com/LocNgoVnK2/ThoBakeryShop/blob/main/BakeryShop/Views/DashBoard/Index.cshtml" id="check-out-bill" class="btn btn-primary">Giao đơn hàng</a>
-                }
-                
-            </div>
+           
         </div>
     </div>
 </div>
 
 
-
-<!-- Mã JavaScript sau Modal -->
 @section getDetailBill{
+  
     <script>
+       
+     
         $(document).ready(function () {
-            // ...
-
-            // Event listener for the "Close" button in the modal
-            $("#partialModal .modal-footer .btn-secondary").click(function () {
-                console.log("Close button clicked.");
-            });
-        });
-        // Chờ cho trang tải xong
-        $(document).ready(function () {
-            // Xử lý sự kiện click trên nút "Chi tiết đơn hàng"
+        
             $(".open-order-detail-button").click(function () {
                 var orderId = $(this).data("order-id");
 
-                // Gửi yêu cầu AJAX để tải chi tiết đơn hàng từ máy chủ
-                console.log("openOrderDetailModal called with orderId: " + orderId);
+                console.log(@TempData["OrderId"]);
                 $.ajax({
                     type: "GET",
                     url: "@Url.Action("GetOrderDetail", "DashBoard")",
                     data: { orderId: orderId },
+                  
                     success: function (data) {
-                        console.log(data);
+                        
+                        
 
                                 var orderDetailHtml = `
                                 <p><strong>Mã đơn hàng:</strong> ${data.idOrder}</p>
@@ -169,7 +164,7 @@
                                 <tbody>
                     `;
 
-                                // Dùng vòng lặp để thêm dữ liệu của mỗi sản phẩm từ orderDetails vào modal
+                            
                                 data.orderDetails.forEach(function (orderDetail) {
                                     orderDetailHtml += `
                             <tr>
@@ -181,14 +176,12 @@
                         `;
                                 });
 
-                                // Đóng bảng và modal
                                 orderDetailHtml += `
                                 </tbody>
                             </table>
                         </div>
                     `;
-
-                        // Cập nhật nội dung của modal
+                     
                         $(".modal-body").html(orderDetailHtml);
                         $("#partialModal").modal('show');
                       

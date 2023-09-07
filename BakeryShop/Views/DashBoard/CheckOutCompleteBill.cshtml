@@ -90,6 +90,12 @@
                                     <td>
                                         <button class="btn btn-primary open-order-detail-button" data-order-id="@order.IdOrder">Chi tiết đơn hàng</button>
                                     </td>
+                                    @if (loggedInUser.Role == "2")
+                                    {
+                                        <td>
+                                            <a asp-action="CheckOutBillDoneByEmployess" asp-controller="DashBoard" asp-route-orderId="@order.IdOrder" class="btn btn-primary">Hoàn thành đơn hàng</a>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>
@@ -109,10 +115,7 @@
             </div>
             <div class="modal-body">
             </div>
-            <div class="modal-footer">
-
-                <button type="button" id="check-out-bill" class="btn btn-primary">Giao đơn hàng</button>
-            </div>
+          
         </div>
     </div>
 </div>

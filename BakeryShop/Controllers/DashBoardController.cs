@@ -14,7 +14,7 @@ namespace BakeryShop.Controllers
 {
     public class DashBoardController : Controller
     {
-      private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly ICategoryService _categoryService;
         private readonly IProductsService _productsService;
         private readonly IAccountsService _accountsService;
@@ -23,14 +23,14 @@ namespace BakeryShop.Controllers
         private readonly ICustomerService _customerService;
         private readonly ICheckOutService _checkOutService;
         private readonly IOrderDetailService _orderDetailService;
-       
-   
-        
-        public DashBoardController(IMapper mapper, 
+
+
+
+        public DashBoardController(IMapper mapper,
                                     ICategoryService categoryService,
-                                    IProductsService productsService, 
-                                    IEmployeeService employeeService, 
-                                    IAccountsService accountsService, 
+                                    IProductsService productsService,
+                                    IEmployeeService employeeService,
+                                    IAccountsService accountsService,
                                     ICheckOutService checkOutService,
                                     IOrderService orderService,
                                     ICustomerService customerService,
@@ -52,16 +52,16 @@ namespace BakeryShop.Controllers
         {
 
             List<CheckOutBillViewModel> checkOutViewModels = new List<CheckOutBillViewModel>();
-          
+
             var orders = await _orderService.GetOrders();
-            orders = orders.Where(e=>e.IsDone==false).Select(e=>e);
-            
+            orders = orders.Where(e => e.IsDone == false).Select(e => e);
+
             foreach (Order order in orders)
             {
 
-                
+
                 CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
-                if (checkOut!=null)
+                if (checkOut != null)
                 {
                     Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
                     CheckOutBillViewModel checkOutView = new CheckOutBillViewModel()
@@ -78,10 +78,10 @@ namespace BakeryShop.Controllers
                     checkOutViewModels.Add(checkOutView);
 
                 }
-     
+
             }
             return View(checkOutViewModels);
-        
+
         }
         //CheckOutCompleteBill
         public async Task<IActionResult> CheckOutCompleteBill()
@@ -95,13 +95,47 @@ namespace BakeryShop.Controllers
             foreach (Order order in orders)
             {
                 CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
-                
-                if (checkOut != null)
+
+                if (checkOut != null && checkOut.IsReceived==false)
                 {
                     Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
                     CheckOutBillViewModel checkOutView = new CheckOutBillViewModel()
                     {
-                       
+
+                        IdOrder = checkOut.IdOrder,
+                        IsReceived = checkOut.IsReceived,
+                        TotalPrice = order.TotalAmount,
+                        OrderDate = order.OrderDate,
+                        PhoneNumber = customer.PhoneNumber,
+                        Address = customer.Address,
+                        FirstName = customer.FirstName + " " + customer.LastName,
+                    };
+                    checkOutViewModels.Add(checkOutView);
+
+                }
+
+            }
+            return View(checkOutViewModels);
+
+        }
+        public async Task<IActionResult> CheckOutCompleteForAdmin()
+        {
+
+            List<CheckOutBillViewModel> checkOutViewModels = new List<CheckOutBillViewModel>();
+
+            var orders = await _orderService.GetOrders();
+            orders = orders.Where(e => e.IsDone == true).Select(e => e);
+
+            foreach (Order order in orders)
+            {
+                CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+
+                if (checkOut != null && checkOut.IsReceived == true)
+                {
+                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+                    CheckOutBillViewModel checkOutView = new CheckOutBillViewModel()
+                    {
+
                         IdOrder = checkOut.IdOrder,
                         IsReceived = checkOut.IsReceived,
                         TotalPrice = order.TotalAmount,
@@ -124,7 +158,7 @@ namespace BakeryShop.Controllers
             {
                 int pageSize = 5;
                 int pageNumber = (page ?? 1);
-             
+
 
                 IQueryable<Product> listProduct = await _productsService.GetProducts();
                 if (!String.IsNullOrEmpty(searchString))
@@ -135,25 +169,25 @@ namespace BakeryShop.Controllers
                 {
                     listProduct = listProduct.Where(e => e.IsUsed == true).Select(e => e);
                 }
-                
+
                 List<ProductViewModel> products = _mapper.Map<List<ProductViewModel>>(listProduct.ToList());
                 IQueryable<Category> categories = await _categoryService.GetCategories();
                 foreach (ProductViewModel product in products)
                 {
-                    
+
                     product.Category = categories.FirstOrDefault(c => c.CategoryId == product.CategoryId);
                 }
                 IPagedList<ProductViewModel> pagedProducts = await products.ToPagedListAsync(pageNumber, pageSize);
-               
+
 
                 return View("Product", pagedProducts);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-           
+
         }
         public async Task<IActionResult> AddProduct()
         {
@@ -168,7 +202,7 @@ namespace BakeryShop.Controllers
         }
         public async Task<IActionResult> AddUserAccount()
         {
-        
+
 
             return View("AddUserAccount");
         }
@@ -191,23 +225,23 @@ namespace BakeryShop.Controllers
         }
         public async Task<IActionResult> Category()
         {
-           try
-           {
-               var categories = await _categoryService.GetCategories();
-               var categoryViews = _mapper.Map<IEnumerable<CategoryViewModel>>(categories.AsEnumerable());
+            try
+            {
+                var categories = await _categoryService.GetCategories();
+                var categoryViews = _mapper.Map<IEnumerable<CategoryViewModel>>(categories.AsEnumerable());
 
-               var categoryPageViewModel = new CategoryPageViewModel
-               {
-                        Categories = categoryViews,
-                        NewCategory = new CategoryViewModel()
-               };
-                    return View("Category", categoryPageViewModel);
-               }
-               catch (Exception ex)
-               {
-                    return BadRequest(ex.Message);
-               }
-           }
+                var categoryPageViewModel = new CategoryPageViewModel
+                {
+                    Categories = categoryViews,
+                    NewCategory = new CategoryViewModel()
+                };
+                return View("Category", categoryPageViewModel);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         public async Task<IActionResult> AccountManagement(int? page, string searchString)
         {
             try
@@ -225,8 +259,8 @@ namespace BakeryShop.Controllers
 
                 var query =
                        from Account in listAccounts
-                       join Employee in listEmployees on Account.EmployeeID equals Employee.EmployeeID 
- 
+                       join Employee in listEmployees on Account.EmployeeID equals Employee.EmployeeID
+
                        select new
                        {
                            Employee,
@@ -238,11 +272,11 @@ namespace BakeryShop.Controllers
                     AccountManagementViewModel viewModel = new AccountManagementViewModel()
                     {
                         AccountID = v.Account.AccountID,
-                        Username  = v.Account.Username,
+                        Username = v.Account.Username,
                         Password = v.Account.Password,
                         Email = v.Account.Email,
                         Role = v.Account.Role,
-                        EmployeeID =v.Employee.EmployeeID,
+                        EmployeeID = v.Employee.EmployeeID,
                         FirstName = v.Employee.FirstName,
                         LastName = v.Employee.LastName,
                         Position = v.Employee.Position,
@@ -265,7 +299,7 @@ namespace BakeryShop.Controllers
             Accounts account = await _accountsService.GetAccount(id);
             Employee employee = await _employeeService.GetEmployee(account.EmployeeID);
             AccountManagementViewModel model = new AccountManagementViewModel();
-            if(employee != null)
+            if (employee != null)
             {
                 model.Email = account.Email;
                 model.Username = account.Username;
@@ -275,19 +309,19 @@ namespace BakeryShop.Controllers
                 model.FirstName = employee.FirstName;
                 model.LastName = employee.LastName;
                 model.Position = employee.Position;
-                
+
             }
             return View("EditAccount", model);
         }
         [HttpGet]
-             public async Task<IActionResult> GetOrderDetail(int orderId)
+        public async Task<IActionResult> GetOrderDetail(int orderId)
         {
 
 
             var order = await _orderService.GetOrder(orderId);
             var orderDetails = await _orderDetailService.GetOrderDetailsByOrderId(orderId);
             List<OrderDetailViewModel> orderDetailViewModels = new List<OrderDetailViewModel>();
-            foreach(var orderDetail in orderDetails)
+            foreach (var orderDetail in orderDetails)
             {
                 var product = await _productsService.GetProduct((int)orderDetail.ProductID);
                 OrderDetailViewModel orderDetailViewModel = new OrderDetailViewModel()
@@ -304,10 +338,10 @@ namespace BakeryShop.Controllers
             }
             CheckOutBillViewModel checkOutView = new CheckOutBillViewModel();
 
-                CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
-                if (checkOut != null)
-                {
-                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+            CheckOut checkOut = await _checkOutService.GetCheckOut((int)order.OrderID);
+            if (checkOut != null)
+            {
+                Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
 
                 checkOutView.IdOrder = checkOut.IdOrder;
                 checkOutView.IsReceived = checkOut.IsReceived;
@@ -321,7 +355,8 @@ namespace BakeryShop.Controllers
                 checkOutView.IsReceived = checkOut.IsReceived;
                 checkOutView.Note = checkOut.Note;
                 checkOutView.orderDetails = orderDetailViewModels;
-                }
+            }
+         
             return Json(checkOutView);
 
         }
@@ -374,6 +409,27 @@ namespace BakeryShop.Controllers
             }
             return Json(checkOutView);
 
+        }
+
+
+
+        public async Task<IActionResult> CheckOutBillByEmployess(int orderId,int accountId)
+        { 
+             Order order = await _orderService.GetOrder(orderId);
+             order.AccountId = accountId;
+             order.IsDone = true;
+             await _orderService.UpdateOrder(order);
+           
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> CheckOutBillDoneByEmployess(int orderId)
+        {
+            CheckOut checkOut = await _checkOutService.GetCheckOut(orderId);
+            checkOut.IsReceived = true;
+            
+            await _checkOutService.UpdateCheckOut(checkOut);
+
+            return RedirectToAction("CheckOutCompleteBill");
         }
     }
 }

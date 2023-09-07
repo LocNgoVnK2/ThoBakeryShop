@@ -1,4 +1,19 @@
 ﻿@model List<CheckOutViewModel>
+@{
+    var totalBill = 0;
+    var totalBillHandling = 0;
+    var totalBillAccepted = 0;
+    var totalBillDone = 0;
+    @if (Model != null)
+    {
+         totalBill = Model.Count();
+         totalBillHandling = Model.Count(e => e.IsAccept == true && e.IsReceived == false);
+         totalBillAccepted = Model.Count(e => e.IsAccept == true && e.IsReceived == true);
+         totalBillDone = Model.Count(e => e.IsAccept == false);
+    }
+  
+
+}
 <div class="cart-table-area section-padding-100">
     <div class="container-fluid">
         <div class="row">
@@ -56,11 +71,12 @@
             </div>
             <div class="col-12 col-3">
                 <div class="cart-summary">
-                    <h5>Cart Total</h5>
+                    
                     <ul class="summary-table">
-                        <li><span>Tổng cộng đơn hàng :</span> <span>aaaaaaaaa</span></li>
-                        <li><span>Tổng cộng đơn hàng đang xử lý :</span> <span>aaaaaaaaa</span></li>
-                        <li><span>Tổng cộng đơn hàng đã xử lý :</span> <span>aaaaaaaaa</span></li>
+                        <li><strong>Đơn hàng :</strong> <span>@totalBill</span></li>
+                        <li><strong>Đơn hàng đang được xử lí :</strong> <span>@totalBillHandling</span></li>
+                        <li><strong>Đơn hàng đã được chấp nhận :</strong> <span>@totalBillAccepted</span></li>
+                        <li><strong>Đơn hàng đã được hoàn thành :</strong> <span>@totalBillDone</span></li>
                     </ul>
                    
 

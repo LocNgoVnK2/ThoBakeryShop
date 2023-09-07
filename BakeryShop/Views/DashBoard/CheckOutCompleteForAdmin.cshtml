@@ -1,0 +1,199 @@
+﻿@using Infrastructure.Entities;
+@using Newtonsoft.Json;
+@model List<CheckOutBillViewModel>
+@{
+    string userJson = Context.Session.GetString("LoggedInUser");
+    Accounts loggedInUser = null;
+    Employee employee = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        loggedInUser = JsonConvert.DeserializeObject<Accounts>(userJson);
+        if (loggedInUser.EmployeeID != null)
+        {
+            string employeeJson = Context.Session.GetString("Employee");
+
+            employee = JsonConvert.DeserializeObject<Employee>(employeeJson);
+        }
+    }
+    else
+    {
+        Context.Response.Redirect("/AccessDenied");
+        return;
+    }
+
+}
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}   <!-- Page Content -->
+<head>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+</head>
+<div id="page-content-wrapper">
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0">Dashboard</h2>
+
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>@loggedInUser.Username
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid px-4">
+        <div class="row my-5">
+            <h3 class="fs-4 mb-3">Hóa đơn hiện tại</h3>
+            <div class="col">
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    <table class="table bg-white rounded shadow-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50">Mã hóa đơn</th>
+                                <th scope="col"> Tên khách hàng </th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số Diện thoại</th>
+                                <th scope="col">Thành tiền</th>
+                                <th scope="col">Chi tiết đơn hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@order.IdOrder</th>
+                                    <td>@order.FirstName</td>
+                                    <td>@order.Address</td>
+                                    <td>@order.PhoneNumber</td>
+                                    <td>@order.TotalPrice</td>
+                                    <td>
+                                        <button class="btn btn-primary open-order-detail-button" data-order-id="@order.IdOrder">Chi tiết đơn hàng</button>
+                                    </td>
+                                    @if (loggedInUser.Role == "2")
+                                    {
+                                        <td>
+                                            <a asp-action="CheckOutBillDoneByEmployess" asp-controller="DashBoard" asp-route-orderId="@order.IdOrder" class="btn btn-primary">Hoàn thành đơn hàng</a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết hóa đơn</h5>
+     
+
+            </div>
+            <div class="modal-body">
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+
+
+@section getDetailBill{
+    <script>
+        $(document).ready(function () {
+
+            $("#partialModal .modal-footer .btn-secondary").click(function () {
+                console.log("Close button clicked.");
+            });
+        });
+
+        $(document).ready(function () {
+
+            $(".open-order-detail-button").click(function () {
+                var orderId = $(this).data("order-id");
+
+                console.log("openOrderDetailModal called with orderId: " + orderId);
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetOrderDetailComplete", "DashBoard")",
+                    data: { orderId: orderId },
+                    success: function (data) {
+                        console.log(data);
+
+                        var orderDetailHtml = `
+                                        <p><strong>Mã đơn hàng:</strong> ${data.idOrder}</p>
+                                        <p><strong>Tên khách hàng:</strong> ${data.firstName}</p>
+                                        <p><strong>Địa chỉ:</strong> ${data.address}</p>
+                                        <p><strong>Số điện thoại:</strong> ${data.phoneNumber}</p>
+                                        <p><strong>Ngày đặt:</strong> ${data.orderDate}</p>
+                                        <p><strong>Ghi chú:</strong> ${data.note}</p>
+                                        <p><strong>Thành tiền:</strong> ${data.totalPrice}</p>
+                                        <p><strong>Người lập bill:</strong> ${data.employeeName}</p>
+                                        <div style="max-height: 300px; overflow-y: auto;">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã sản phẩm</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Thành tiền</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                    `;
+
+          
+                        data.orderDetails.forEach(function (orderDetail) {
+                            orderDetailHtml += `
+                                            <tr>
+                                                <td>${orderDetail.productID}</td>
+                                                <td>${orderDetail.productName}</td>
+                                                <td>${orderDetail.quantity}</td>
+                                                <td>${orderDetail.subtotal}</td>
+                                            </tr>
+                                        `;
+                        });
+                        orderDetailHtml += `
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    `;
+
+                        // Cập nhật nội dung của modal
+                        $(".modal-body").html(orderDetailHtml);
+                        $("#partialModal").modal('show');
+
+                    },
+                    error: function (error) {
+                        console.error("Lỗi khi tải chi tiết đơn hàng: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
