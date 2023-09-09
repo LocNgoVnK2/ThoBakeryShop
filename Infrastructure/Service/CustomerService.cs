@@ -17,6 +17,7 @@ namespace Infrastructure.Service
         Task UpdateCustomer(Customer customer); 
         Task DeleteCustomer(Customer customer);
         Task<Customer> GetCustomerByPhoneNumber(string phoneNumber);
+        Task<List<Customer>> GetCustomersByPhoneNumber(string phoneNumber);
     }
 
     public class CustomerService : ICustomerService
@@ -55,15 +56,22 @@ namespace Infrastructure.Service
             await customerRepository.DeleteAsync(Customer);
 
         }
-        public async Task<Customer> GetCustomerByPhoneNumber(string phoneNumber)
+        
+        public async Task<List<Customer>> GetCustomersByPhoneNumber(string phoneNumber)
         {
-            Customer customers =  await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            List<Customer> customers =  await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).ToListAsync();
             return customers;
         }
-        public async Task<Customer> GetCustomerByPhoneNumberAndId(string phoneNumber,int id)
+        public async Task<Customer> GetCustomerByPhoneNumber(string phoneNumber)
         {
-            Customer customers = await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
-            return customers;
+            //Customer customers = await customerRepository.GetAll().Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            Customer customer = await customerRepository
+                .GetAll()
+                .Where(x => x.PhoneNumber == phoneNumber)  
+                .OrderByDescending(x => x.CustomerId) 
+                .FirstOrDefaultAsync();
+
+            return customer;
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Transactions;
 using X.PagedList;
 
 
@@ -431,5 +432,40 @@ namespace BakeryShop.Controllers
 
             return RedirectToAction("CheckOutCompleteBill");
         }
+        public async Task<IActionResult> RemoveOrderByAdmin(int orderId)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                string validationCode = "";
+                string phoneNumber = "";
+                try
+                {
+                    Order order = await _orderService.GetOrder(orderId);
+                    CheckOut checkOut = await _checkOutService.GetCheckOut(orderId);
+
+                    IQueryable<OrderDetail> orderDetails = await _orderDetailService.GetOrderDetailsByOrderId(orderId);
+
+                    await _checkOutService.DeleteCheckOut(checkOut);
+                    foreach (OrderDetail detail in orderDetails)
+                    {
+                        await _orderDetailService.DeleteOrderDetail(detail);
+                    }
+                    await _orderService.DeleteOrder(order);
+
+                    scope.Complete();
+                    return RedirectToAction("CheckOutCompleteBill", "DashBoard");
+                    //return RedirectToAction("ReviewOrder", new { validationCode = validationCode , phoneNumber =phoneNumber});
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    return NotFound();
+                }
+            }
+
+
+
+        }
     }
+
 }

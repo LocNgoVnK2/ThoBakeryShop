@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxSZXZpZXdPcmRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/.netSave/BakeryShop/BakeryShop/Views/Cart/ValidationReviewOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxWYWxpZGF0aW9uUmV2aWV3T3JkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/.netSave/BakeryShop/BakeryShop/Views/DashBoard/AccountManagement.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaEJvYXJkXEFjY291bnRNYW5hZ2VtZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -23,10 +23,13 @@
                 </div>
        <form asp-action="ReviewOrder" asp-controller="Cart" method="post" class="form-inline">
             <div class="form-group">
-                <input type="text" name="phoneNumber" class="form-control" placeholder="Tìm đơn hàng bằng sdt...">
+                <h4>Kiểm tra mã xác nhận tại Gmail đặt đơn hàng</h4>
+                <input type="text" name="validationCode" class="form-control" placeholder="Nhập mã xác nhận kiểm tra tại gmail...">
             </div>
+                    <input type="hidden" name="phoneNumber" value="@Context.Request.Query["phoneNumber"]" />
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
+              
                 <div class="cart-table clearfix">
                     <table class="table table-responsive" style="overflow-y:auto; height:500px">
                         <thead>
@@ -35,6 +38,7 @@
                                 <th>Giá</th>
                                 <th>Ngày đặt</th>
                                 <th>Trạng thái đơn hàng</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +55,7 @@
                                                 @if (order.IsAccept == true && order.IsReceived == false)
                                                 {
                                                     <p style="color: dodgerblue;">Đơn hàng đã được chấp nhận</p>
+                                                    
                                                 }
                                                 else if (order.IsAccept == true && order.IsReceived == true)
                                                 {
@@ -60,8 +65,11 @@
                                                 else
                                                 {
                                                     <p style="color: orangered;">Đơn hàng đang được xử lí</p>
+                                                <a asp-action="CancelOrder" asp-controller="Cart" asp-route-orderId="@order.IdOrder" class="btn btn-primary">Hủy hóa đơn</a>
                                                 }
+                                            
                                         </td>
+                                         
                                     </tr>
                                 }
                             }

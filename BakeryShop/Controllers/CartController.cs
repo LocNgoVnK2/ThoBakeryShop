@@ -3,6 +3,7 @@ using Infrastructure.Entities;
 using Infrastructure.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
 using Newtonsoft.Json;
 using System.Text;
 using System.Transactions;
@@ -16,13 +17,15 @@ namespace BakeryShop.Controllers
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly ICheckOutService _checkOutService;
-        public CartController(IProductsService productsService, IOrderDetailService orderDetailService, IOrderService orderService, ICheckOutService checkOutService, ICustomerService customerService)
+        private readonly Infrastructure.Service.IEmailService emailService;
+        public CartController(IProductsService productsService, IOrderDetailService orderDetailService, IOrderService orderService, ICheckOutService checkOutService, ICustomerService customerService, Infrastructure.Service.IEmailService emailService)
         {
             this._productsService = productsService;
             _orderDetailService = orderDetailService;
             _orderService = orderService;
             _customerService = customerService;
             _checkOutService = checkOutService;
+            this.emailService = emailService;
         }
         public async Task<ActionResult> Index(int id, int quantity)
         {
@@ -172,7 +175,7 @@ namespace BakeryShop.Controllers
                     scope.Complete();
                     HttpContext.Session.Remove("cart");
 
-                    return RedirectToAction("ReviewOrder", "Cart");
+                    return RedirectToAction("ValidationReviewOrder", "Cart");
                 }
                 catch (Exception ex)
                 {
@@ -183,36 +186,98 @@ namespace BakeryShop.Controllers
             }
 
         }
-        public async Task<ActionResult> ReviewOrder(string phoneNumber)
+        public async Task<ActionResult> ReviewOrder(string validationCode, string phoneNumber)
         {
-            if (phoneNumber == null)
+
+            if ((validationCode==null&& phoneNumber==null)&&(TempData["ValidationCode"]!=null && TempData["PhoneNumber"] != null))
+            {
+                 validationCode = TempData["ValidationCode"] as string;
+                 phoneNumber = TempData["PhoneNumber"] as string;
+            }
+            if (validationCode == null )
             {
                 return View();
             }
-            List<CheckOutViewModel> checkOutViewModels = new List<CheckOutViewModel>();
-            Customer customer = await _customerService.GetCustomerByPhoneNumber(phoneNumber);
-            if(customer!=null)
+            else 
             {
-                List<CheckOut> checkOuts = await _checkOutService.GetListCheckOutByCustomerId((int)customer.CustomerId);
-                foreach (CheckOut checkOut in checkOuts)
-                {
-                    Order order = await _orderService.GetOrder((int)checkOut.IdOrder);
-                    CheckOutViewModel checkOutView = new CheckOutViewModel()
-                    {
+                List<CheckOutViewModel> checkOutViewModels = new List<CheckOutViewModel>();
+                Customer customer = await _customerService.GetCustomerByPhoneNumber(phoneNumber); 
+                // get last record of this customer to validation
 
-                        IdOrder = checkOut.IdOrder,
-                        IsReceived = checkOut.IsReceived,
-                        IsAccept = order.IsDone,
-                        Note = checkOut.Note,
-                        TotalPrice = order.TotalAmount,
-                        OrderDate = order.OrderDate,
-                        PhoneNumber = phoneNumber
-                    };
-                    checkOutViewModels.Add(checkOutView);
+                 if (customer != null && customer.ValidationCode==validationCode)
+                {
+                    List<Customer> customers = await _customerService.GetCustomersByPhoneNumber(phoneNumber);
+                    foreach( Customer cus in  customers )
+                    {
+                        List<CheckOut> checkOuts = await _checkOutService.GetListCheckOutByCustomerId((int)cus.CustomerId);
+                        foreach (CheckOut checkOut in checkOuts)
+                        {
+                            Order order = await _orderService.GetOrder((int)checkOut.IdOrder);
+                            CheckOutViewModel checkOutView = new CheckOutViewModel()
+                            {
+
+                                IdOrder = checkOut.IdOrder,
+                                IsReceived = checkOut.IsReceived,
+                                IsAccept = order.IsDone,
+                                Note = checkOut.Note,
+                                TotalPrice = order.TotalAmount,
+                                OrderDate = order.OrderDate,
+                                PhoneNumber = phoneNumber
+                            };
+                            checkOutViewModels.Add(checkOutView);
+                        }
+                    }
+                    TempData.Remove("ValidationCode");
+                    TempData.Remove("PhoneNumber");
+                    return View(checkOutViewModels);
                 }
-                return View(checkOutViewModels);
             }
-          return View();
+           
+          return RedirectToAction("ValidationReviewOrder");
+        }
+        public async Task<ActionResult> ValidationReviewOrder()
+        {
+          
+                return View();
+
+        }
+        //ValidateUser
+        public async Task<ActionResult> ValidateUser(string phoneNumber)
+        {
+            if (phoneNumber == null)
+            {
+                return RedirectToAction("ValidationReviewOrder");
+            }
+            try
+            {
+                Customer customer = await _customerService.GetCustomerByPhoneNumber(phoneNumber);
+                if (customer != null)
+                {
+
+                    customer.ValidationCode = GenerateRandomString(6);
+                    await _customerService.UpdateCustomer(customer);
+                   //sendmail
+                    string subject = "Xin chào: " + customer.FirstName+" "+customer.LastName + " | Email đăng nhập Tho Bakery";
+                    string content = "Đây là email gửi tự động bởi hệ thống xác minh, Mã xác nhận của bận :" + customer.ValidationCode;
+                    var message = new EmailMessage(customer.Email, subject, content);
+                    emailService.SendEmail(message);
+
+                    return RedirectToAction("ReviewOrder", new { phoneNumber = phoneNumber });
+
+                }
+            }catch (Exception ex)
+            {
+                return RedirectToAction("ValidationReviewOrder");
+            }
+            return RedirectToAction("ValidationReviewOrder");
+
+        }
+        static string GenerateRandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
         [HttpPost]
         public IActionResult UpdateQuantity(int productId, int newQuantity)
@@ -267,5 +332,46 @@ namespace BakeryShop.Controllers
             }
             return Json(new { success = false });
         }
+
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                string validationCode = "";
+                string phoneNumber = "";
+                try
+                {
+                    Order order = await _orderService.GetOrder(orderId);
+                    CheckOut checkOut = await _checkOutService.GetCheckOut(orderId);
+                    Customer customer = await _customerService.GetCustomer((int)checkOut.CustomerId);
+                    Customer flagCustomer = await _customerService.GetCustomerByPhoneNumber(customer.PhoneNumber); // lấy last mới đúng là status của customer đang login
+                    validationCode= flagCustomer.ValidationCode;
+                    phoneNumber= flagCustomer.PhoneNumber;
+                    IQueryable<OrderDetail> orderDetails = await _orderDetailService.GetOrderDetailsByOrderId(orderId);
+                  
+                    await _checkOutService.DeleteCheckOut(checkOut);
+                    foreach (OrderDetail detail in orderDetails)
+                    {
+                        await _orderDetailService.DeleteOrderDetail(detail);
+                    }
+                    await _orderService.DeleteOrder(order);
+                    TempData["ValidationCode"] = validationCode;
+                    TempData["PhoneNumber"] = phoneNumber;
+
+                    scope.Complete();
+                    return RedirectToAction("ReviewOrder");
+                    //return RedirectToAction("ReviewOrder", new { validationCode = validationCode , phoneNumber =phoneNumber});
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    return NotFound();
+                }
+            }
+          
+      
+           
+        }
+   
     }
 }

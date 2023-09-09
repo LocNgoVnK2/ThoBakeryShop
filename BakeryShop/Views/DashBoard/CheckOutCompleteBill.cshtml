@@ -96,6 +96,12 @@
                                             <a asp-action="CheckOutBillDoneByEmployess" asp-controller="DashBoard" asp-route-orderId="@order.IdOrder" class="btn btn-primary">Hoàn thành đơn hàng</a>
                                         </td>
                                     }
+                                    else
+                                    {
+                                        <td>
+                                            <a asp-action="RemoveOrderByAdmin" asp-controller="DashBoard" asp-route-orderId="@order.IdOrder" class="btn btn-primary">Hủy đơn hàng</a>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>
