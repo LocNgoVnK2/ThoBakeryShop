@@ -65,6 +65,18 @@
     <div class="container-fluid px-4">
         <div class="row my-5">
             <h3 class="fs-4 mb-3">Hóa đơn hiện tại</h3>
+            <div class="w3-margin-top">
+                <form class="w3-container w3-card w3-padding" method="get" asp-controller="DashBoard" asp-action="CheckOutCompleteBill" asp-route-inforOrder="">
+                    <div class="w3-row">
+                        <div class="w3-col">
+                            <input class="w3-input w3-border" type="text" placeholder="Tìm sản phẩm" name="inforOrder">
+                        </div>
+                        <div class="w3-col">
+                            <button type="submit" class="w3-button w3-blue">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="col">
                 <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                     <table class="table bg-white rounded shadow-sm table-hover">

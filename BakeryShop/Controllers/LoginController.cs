@@ -26,13 +26,15 @@ namespace BakeryShop.Controllers
             this.employeeService = employeeService;
             this.mapper = mapper;
         }
-        public async Task<IActionResult> Login()
+        
+        public async Task<IActionResult> Admin()
         {
 
-            return View();
+            return View("Login");
         }
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // chống request từ nơi ko phải site của mình bằng 1 cái token hidden
         public async Task<IActionResult> Login(AccountsViewModel accounts)
         {
             if (accounts != null)

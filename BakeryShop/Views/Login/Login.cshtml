@@ -34,6 +34,7 @@
                 }
 
                 <form method="post" asp-controller="Login" asp-action="Login" class="w3-container">
+                    @Html.AntiForgeryToken()
                     <div class="w3-section">
                         <label><b>Username</b></label>
                         <input asp-for="Username" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username"  required>

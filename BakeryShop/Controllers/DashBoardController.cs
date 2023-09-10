@@ -85,7 +85,7 @@ namespace BakeryShop.Controllers
 
         }
         //CheckOutCompleteBill
-        public async Task<IActionResult> CheckOutCompleteBill()
+        public async Task<IActionResult> CheckOutCompleteBill(string inforOrder)
         {
 
             List<CheckOutBillViewModel> checkOutViewModels = new List<CheckOutBillViewModel>();
@@ -115,6 +115,18 @@ namespace BakeryShop.Controllers
 
                 }
 
+            }
+
+            if (!string.IsNullOrEmpty(inforOrder))
+            {
+                checkOutViewModels = checkOutViewModels.Where(checkOut =>
+                    checkOut.IdOrder.ToString().Contains(inforOrder) ||
+                    checkOut.TotalPrice.ToString().Contains(inforOrder) ||
+                    checkOut.OrderDate.ToString().Contains(inforOrder) ||
+                    checkOut.PhoneNumber.Contains(inforOrder) ||
+                    checkOut.Address.Contains(inforOrder) ||
+                    checkOut.FirstName.Contains(inforOrder)
+                ).ToList();
             }
             return View(checkOutViewModels);
 
@@ -454,7 +466,7 @@ namespace BakeryShop.Controllers
 
                     scope.Complete();
                     return RedirectToAction("CheckOutCompleteBill", "DashBoard");
-                    //return RedirectToAction("ReviewOrder", new { validationCode = validationCode , phoneNumber =phoneNumber});
+                   
                 }
                 catch (Exception ex)
                 {
