@@ -28,5 +28,7 @@ namespace BakeryShop.Models
             public Category? Category { get; set; }
             public bool? IsUsed { get; set; } = true;
             public IEnumerable<CategoryViewModel>? Categories { get; set; }
+            public List<Review> reviews { get; set; }
+            public int? Rating { get; set; }
         }
 }

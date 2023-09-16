@@ -60,7 +60,9 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 //checkout 
 builder.Services.AddScoped<ICheckOutRepository, CheckOutRepository>();
 builder.Services.AddScoped<ICheckOutService, CheckOutService>();
-
+//review 
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 builder.Services.AddDbContext<EXDbContext>(options =>
 {

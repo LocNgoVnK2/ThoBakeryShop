@@ -1,4 +1,5 @@
-﻿<head>
+﻿@model List<RatingViewModel>
+<head>
     <title>Đánh giá sản phẩm</title>
     <style>
         .review-container {
@@ -38,26 +39,30 @@
     </style>
 </head>
 
-<div class="review-container">
+<div class="review-container" style="height: 800px;overflow-y: scroll;">
     <h2>Đánh giá sản phẩm</h2>
-    <form method="post" action="ProcessReview">
-        @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label for="rating">Chọn số sao:</label>
-            <select id="rating" name="rating" class="review-select">
-                <option value="1">1 sao</option>
-                <option value="2">2 sao</option>
-                <option value="3">3 sao</option>
-                <option value="4">4 sao</option>
-                <option value="5">5 sao</option>
-            </select>
+   
+        <div style="margin-bottom: 20px; border:solid black 1px; border-radius:5px;">
+            <form method="post" action="ProcessReview">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="rating">Chọn số sao:</label>
+                    <select id="rating" name="rating" class="review-select">
+                        <option value="1">1 sao</option>
+                        <option value="2">2 sao</option>
+                        <option value="3">3 sao</option>
+                        <option value="4">4 sao</option>
+                        <option value="5">5 sao</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review">Nhập đánh giá sản phẩm:</label>
+                    <textarea id="review" name="review" class="review-textarea" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="review-submit-btn" value="Submit">
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="review">Nhập đánh giá sản phẩm:</label>
-            <textarea id="review" name="review" class="review-textarea" required></textarea>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="review-submit-btn" value="Submit">
-        </div>
-    </form>
+    
 </div>
