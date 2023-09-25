@@ -1,11 +1,11 @@
 
 ## ThoBakaryShop
 
-**A micro-service based e-commerce website for a bakery shop**
+**A 3-Tier based e-commerce website for a bakery shop**
 
 **About:**
 
-ThoBakaryShop is a web application that allows users to purchase baked goods from a bakery shop. The application is built using a micro-service architecture, which allows for scalability and flexibility,Live demo: https://www.youtube.com/watch?v=VW8hkg4gGiY.
+ThoBakaryShop is a web application that allows users to purchase baked goods from a bakery shop. The application is built using a 3-Tier architecture, which allows for scalability and flexibility,Live demo: https://www.youtube.com/watch?v=VW8hkg4gGiY.
 
 **Features:**
 
