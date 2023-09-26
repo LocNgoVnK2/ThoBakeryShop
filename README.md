@@ -5,7 +5,7 @@
 
 **About:**
 
-ThoBakaryShop is a web application that allows users to purchase baked goods from a bakery shop. The application is built using a 3-Tier architecture, which allows for scalability and flexibility,Live demo: https://www.youtube.com/watch?v=VW8hkg4gGiY.
+ThoBakaryShop is a web application that allows users to purchase cream cake from a bakery shop. The application is built using a 3-Tier architecture, which allows for scalability and flexibility,Live demo: https://www.youtube.com/watch?v=VW8hkg4gGiY.
 
 **Features:**
 
