@@ -1,11 +1,11 @@
 
 ## ThoBakaryShop
 
-**A 3-Tier based e-commerce website for a bakery shop**
+**A e-commerce website for a bakery shop**
 
 **About:**
 
-ThoBakaryShop is a web application that allows users to purchase cream cake from a bakery shop. The application is built using a 3-Tier architecture, which allows for scalability and flexibility,Live demo: 
+ThoBakaryShop is a web application that allows users to purchase cream cake from a bakery shop.
 
 **LINK WEB:**
 https://thobakery.azurewebsites.net/
